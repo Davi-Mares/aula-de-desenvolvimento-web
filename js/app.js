@@ -68,33 +68,6 @@ function adicionarEfeitoBrilho() {
   });
 }
 
-// ===== VALIDAÇÃO =====
-// Validar email
-function validarEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-// Validar formulário de contato
-function validarFormularioContato() {
-  const nome = document.getElementById('nome')?.value;
-  const email = document.getElementById('email')?.value;
-  const mensagem = document.getElementById('mensagem')?.value;
-  
-  if (!nome || !email || !mensagem) {
-    alert('⚠️ Preencha todos os campos!');
-    return false;
-  }
-  
-  if (!validarEmail(email)) {
-    alert('⚠️ Email inválido!');
-    return false;
-  }
-  
-  alert('✓ Formulário enviado com sucesso!');
-  return true;
-}
-
 // Executar ao carregar a página
 window.addEventListener('DOMContentLoaded', function() {
   mostrarCitacaoAleatoria();
