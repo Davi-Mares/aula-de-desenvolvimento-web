@@ -28,6 +28,9 @@
     <button onclick="trocarCitacao()" style="margin-top: 15px; padding: 10px 20px; background: #66ccff; color: #0b1020; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;">
       ✨ Próxima Citação
     </button>
+    <button onclick="copiarCitacao()" style="margin-top: 15px; margin-left: 10px; padding: 10px 20px; background: #66ccff; color: #0b1020; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+      📋 Copiar Citação
+    </button>
   </div>
 
   <main>
@@ -135,6 +138,50 @@
         <li><strong>JavaScript:</strong> Interatividade e efeitos dinâmicos (em desenvolvimento)</li>
         <li><strong>Hospedagem:</strong> GitHub Pages</li>
       </ul>
+    </section>
+
+    <section class="categoria">
+      <h2>⚡ Funcionalidades JavaScript Disponíveis</h2>
+      
+      <div style="background: #1a2847; padding: 20px; border-radius: 8px;">
+        <h3>Citações e Compartilhamento</h3>
+        <button onclick="trocarCitacao()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          ✨ Próxima Citação
+        </button>
+        <button onclick="copiarCitacao()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          📋 Copiar Citação
+        </button>
+        <button onclick="compartilharWhatsApp()" style="margin: 5px; padding: 8px 16px; background: #25D366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          📱 Compartilhar WhatsApp
+        </button>
+        <button onclick="compartilharTwitter()" style="margin: 5px; padding: 8px 16px; background: #1DA1F2; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          𝕏 Compartilhar Twitter
+        </button>
+
+        <h3 style="margin-top: 20px;">Fonte e Acessibilidade</h3>
+        <button onclick="aumentarFonte()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          🔍 Aumentar Fonte
+        </button>
+        <button onclick="diminuirFonte()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          🔍 Diminuir Fonte
+        </button>
+        <button onclick="resetarFonte()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          ⟲ Resetar Fonte
+        </button>
+
+        <h3 style="margin-top: 20px;">Navegação</h3>
+        <button onclick="scrollAoTopo()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          ⬆️ Voltar ao Topo
+        </button>
+        <button onclick="alternarTema()" style="margin: 5px; padding: 8px 16px; background: #66ccff; color: #0b1020; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          🌓 Alternar Tema
+        </button>
+
+        <h3 style="margin-top: 20px;">Informações</h3>
+        <button onclick="mostrarInfo('📊 Curiosidade', 'O universo tem aproximadamente 13,8 bilhões de anos!')" style="margin: 5px; padding: 8px 16px; background: #FF6B6B; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          ℹ️ Fato do Universo
+        </button>
+      </div>
     </section>
 
   </main>
