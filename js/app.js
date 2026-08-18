@@ -15,36 +15,24 @@ const citacoes = [
 ];
 
 // ===== CITAÇÕES =====
-// Função para mostrar uma citação aleatória ao carregar a página
+// Mostrar citação aleatória ao carregar a página
 function mostrarCitacaoAleatoria() {
   const citacao = citacoes[Math.floor(Math.random() * citacoes.length)];
   console.log("🌌 " + citacao);
   
-  // Também exibir na página se houver elemento com id "citacao"
   const elementoCitacao = document.getElementById('citacao');
   if (elementoCitacao) {
     elementoCitacao.textContent = '🌌 ' + citacao;
   }
 }
 
-// Função para trocar citação com botão
+// Trocar para próxima citação
 function trocarCitacao() {
   mostrarCitacaoAleatoria();
 }
 
-// Copiar citação para o clipboard
-function copiarCitacao() {
-  const elementoCitacao = document.getElementById('citacao');
-  if (elementoCitacao) {
-    const texto = elementoCitacao.textContent;
-    navigator.clipboard.writeText(texto).then(() => {
-      alert('✨ Citação copiada para a área de transferência!');
-    }).catch(err => console.error('Erro ao copiar:', err));
-  }
-}
-
 // ===== NAVEGAÇÃO =====
-// Voltar ao topo da página
+// Voltar ao topo com scroll suave
 function scrollAoTopo() {
   window.scrollTo({
     top: 0,
@@ -64,48 +52,6 @@ function mostrarBotaoTopo() {
   }
 }
 
-// ===== TEMA (DARK/LIGHT) =====
-// Alternar entre tema escuro e claro
-function alternarTema() {
-  const body = document.body;
-  body.classList.toggle('tema-claro');
-  
-  // Salvar preferência no localStorage
-  if (body.classList.contains('tema-claro')) {
-    localStorage.setItem('tema', 'claro');
-  } else {
-    localStorage.setItem('tema', 'escuro');
-  }
-}
-
-// Carregar tema salvo
-function carregarTemaSalvo() {
-  const temaSalvo = localStorage.getItem('tema');
-  if (temaSalvo === 'claro') {
-    document.body.classList.add('tema-claro');
-  }
-}
-
-// ===== FONTE =====
-// Aumentar tamanho da fonte
-function aumentarFonte() {
-  const tamanhoAtual = parseInt(getComputedStyle(document.body).fontSize);
-  document.body.style.fontSize = (tamanhoAtual + 2) + 'px';
-}
-
-// Diminuir tamanho da fonte
-function diminuirFonte() {
-  const tamanhoAtual = parseInt(getComputedStyle(document.body).fontSize);
-  if (tamanhoAtual > 12) {
-    document.body.style.fontSize = (tamanhoAtual - 2) + 'px';
-  }
-}
-
-// Resetar tamanho da fonte
-function resetarFonte() {
-  document.body.style.fontSize = '16px';
-}
-
 // ===== EFEITOS VISUAIS =====
 // Efeito de brilho ao passar o mouse sobre os cards
 function adicionarEfeitoBrilho() {
@@ -122,43 +68,8 @@ function adicionarEfeitoBrilho() {
   });
 }
 
-// Mostrar alert com informação
-function mostrarInfo(titulo, mensagem) {
-  alert(`${titulo}\n\n${mensagem}`);
-}
-
-// ===== COMPARTILHAMENTO =====
-// Compartilhar página no WhatsApp
-function compartilharWhatsApp() {
-  const url = window.location.href;
-  const titulo = document.title;
-  const mensagem = `Confira essa incrível wiki sobre o universo: ${titulo} - ${url}`;
-  const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-  window.open(urlWhatsApp, '_blank');
-}
-
-// Compartilhar página no Twitter
-function compartilharTwitter() {
-  const url = window.location.href;
-  const titulo = document.title;
-  const urlTwitter = `https://twitter.com/intent/tweet?text=Confira: ${encodeURIComponent(titulo)}&url=${encodeURIComponent(url)}`;
-  window.open(urlTwitter, '_blank');
-}
-
-// ===== BUSCADOR =====
-// Buscar conteúdo na página
-function buscarTexto(termo) {
-  const regex = new RegExp(termo, 'gi');
-  const body = document.body.innerHTML;
-  if (body.match(regex)) {
-    alert(`✓ Encontradas ${body.match(regex).length} ocorrências de "${termo}"`);
-  } else {
-    alert(`✗ Nenhuma ocorrência de "${termo}" encontrada`);
-  }
-}
-
-// ===== VALIDAÇÃO DE FORMULÁRIO =====
-// Validar e-mail
+// ===== VALIDAÇÃO =====
+// Validar email
 function validarEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
@@ -188,7 +99,6 @@ function validarFormularioContato() {
 window.addEventListener('DOMContentLoaded', function() {
   mostrarCitacaoAleatoria();
   adicionarEfeitoBrilho();
-  carregarTemaSalvo();
 });
 
 // Mostrar/ocultar botão topo ao scroll
