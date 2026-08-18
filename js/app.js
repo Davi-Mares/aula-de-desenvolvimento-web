@@ -16,6 +16,17 @@ const citacoes = [
 function mostrarCitacaoAleatoria() {
   const citacao = citacoes[Math.floor(Math.random() * citacoes.length)];
   console.log("🌌 " + citacao);
+  
+  // Também exibir na página se houver elemento com id "citacao"
+  const elementoCitacao = document.getElementById('citacao');
+  if (elementoCitacao) {
+    elementoCitacao.textContent = '🌌 ' + citacao;
+  }
+}
+
+// Função para trocar citação com botão
+function trocarCitacao() {
+  mostrarCitacaoAleatoria();
 }
 
 // Efeito de brilho ao passar o mouse sobre os cards
