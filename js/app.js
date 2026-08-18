@@ -8,8 +8,10 @@ const citacoes = [
   "A curiosidade é o primeiro passo para a compreensão do universo.",
   "No vasto cosmos, cada planeta tem sua história.",
   "Os buracos negros são portais para o desconhecido.",
-  "A Via Láctea é nosso lar galáxico.",
-  "Cada estrela é um sol distante com seus próprios mistérios."
+  "A Via Láctea é nosso lar.",
+  "Cada estrela é um sol distante com seus próprios mistérios.",
+  "Astronomia é a ciência que estuda os astros e o universo.",
+  "Nem todos os pontos do céu são estrelas."
 ];
 
 // Função para mostrar uma citação aleatória ao carregar a página
