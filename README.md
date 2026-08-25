@@ -1,47 +1,52 @@
-# 🌌 Wiki do Universo
+# Wiki do Universo
 
-**Nome:** Davi Alves Mares  
-**Curso:** Sistemas de Informação — UNEMAT  
-**Disciplina:** Desenvolvimento Web
+Projeto desenvolvido por **Davi Alves Mares** para a disciplina de Desenvolvimento Web do curso de Sistemas de Informação da UNEMAT.
 
-## Tema pretendido
+## Sobre o projeto
 
-Desenvolvimento de uma **Wiki sobre o Universo**, com informações sobre planetas, estrelas, galáxias, luas, fenômenos astronômicos e outros assuntos relacionados ao espaço.
+A Wiki do Universo reúne conteúdos introdutórios sobre astronomia em páginas HTML simples, organizadas para facilitar a exploração do Sistema Solar e de outros temas do espaço.
 
-A ideia é criar uma aplicação web simples, semelhante a uma Wikipédia, e ir evoluindo o projeto conforme as aulas de Desenvolvimento Web.
+Na área dos astros, cada página apresenta uma navegação na ordem em que os corpos estão organizados a partir do Sol:
 
-## Objetivo
+**Sol → Mercúrio → Vênus → Terra → Marte → Júpiter → Saturno → Urano → Netuno**
 
-Organizar informações sobre astronomia em páginas simples e fáceis de navegar.
+É possível acessar diretamente qualquer astro pela página inicial ou avançar e voltar entre páginas usando os controles de navegação. O astro atual fica destacado na sequência.
+
+## Conteúdo
+
+- Página inicial com acesso ao Sistema Solar, Universo, Via Láctea e curiosidades.
+- Páginas individuais para o Sol e os oito planetas.
+- Conteúdos sobre o Universo e a Via Láctea.
+- Página de curiosidades, informações sobre o projeto e formulário de contato.
+- Menu responsivo e botão para voltar ao topo.
 
 ## Tecnologias
 
-- HTML
-- CSS
+- HTML5
+- CSS3
 - JavaScript
-- Node.js
 - Git e GitHub
 
-## Funcionalidades atuais
+## Estrutura
 
-- Página inicial com seções sobre o Sistema Solar, o Universo e outros conteúdos.
-- Cards de acesso aos oito planetas e ao Sol, organizados a partir do Sol.
-- Navegação planetária presente nas páginas do Sistema Solar, com a ordem completa dos astros, destaque da página atual e links para o planeta anterior e o próximo.
-- Menu principal responsivo, citações aleatórias e botão para voltar ao topo.
-- Páginas individuais para o Sol, Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano e Netuno.
+```text
+.
+├── index.html
+├── sol.html, mercurio.html, venus.html, terra.html
+├── marte.html, jupiter.html, saturno.html, urano.html, netuno.html
+├── universo.html e via-lactea.html
+├── curiosidades.html, sobre.html e pagina-de-contato.html
+├── css/
+│   ├── sistema-solar.css
+│   └── menu.css
+├── js/
+│   └── app.js
+├── img/
+└── audios/
+```
 
-## Estrutura do projeto
+## Como executar
 
-- Arquivos `.html`: páginas do Wiki e páginas individuais dos astros.
-- `css/`: estilos da interface e do menu.
-- `js/app.js`: citações, menu, navegação atual, navegação entre planetas e botão para voltar ao topo.
-- `img/`: imagens usadas nas páginas.
-- `audios/`: arquivos de áudio do projeto.
-
-## Ordem do Sistema Solar
-
-A navegação entre as páginas segue a ordem dos corpos a partir do Sol:
-
-**Sol → Mercúrio → Vênus → Terra → Marte → Júpiter → Saturno → Urano → Netuno**
+Abra o arquivo `index.html` no navegador. Como o projeto usa apenas HTML, CSS e JavaScript, não é necessário instalar dependências ou iniciar um servidor.
 
 > Projeto desenvolvido como parte das atividades da disciplina de Desenvolvimento Web.
