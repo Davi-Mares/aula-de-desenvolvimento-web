@@ -32,7 +32,6 @@ function trocarCitacao() {
 }
 
 // ===== NAVEGAÇÃO =====
-// Voltar ao topo com scroll suave
 function scrollAoTopo() {
   window.scrollTo({
     top: 0,
@@ -44,12 +43,64 @@ function scrollAoTopo() {
 function mostrarBotaoTopo() {
   const botao = document.getElementById('btnTopo');
   if (botao) {
-    if (window.scrollY > 300) {
-      botao.style.display = 'block';
-    } else {
-      botao.style.display = 'none';
-    }
+    botao.hidden = window.scrollY <= 300;
   }
+}
+
+function criarBotaoTopo() {
+  if (document.getElementById('btnTopo')) {
+    return;
+  }
+
+  const botao = document.createElement('button');
+  botao.id = 'btnTopo';
+  botao.className = 'btn-topo';
+  botao.type = 'button';
+  botao.title = 'Voltar ao topo';
+  botao.setAttribute('aria-label', 'Voltar ao topo');
+  botao.textContent = '↑';
+  botao.addEventListener('click', scrollAoTopo);
+  document.body.appendChild(botao);
+  mostrarBotaoTopo();
+}
+
+function configurarMenu() {
+  const botao = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.site-nav');
+  if (!botao || !menu) {
+    return;
+  }
+
+  const fecharMenu = () => {
+    menu.classList.remove('menu-aberto');
+    botao.setAttribute('aria-expanded', 'false');
+  };
+
+  botao.addEventListener('click', () => {
+    const aberto = menu.classList.toggle('menu-aberto');
+    botao.setAttribute('aria-expanded', String(aberto));
+  });
+
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', fecharMenu);
+  });
+
+  document.addEventListener('keydown', evento => {
+    if (evento.key === 'Escape') {
+      fecharMenu();
+      botao.focus();
+    }
+  });
+}
+
+function marcarPaginaAtual() {
+  const paginaAtual = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.site-nav a').forEach(link => {
+    const paginaDoLink = link.getAttribute('href').split('#')[0];
+    if (paginaDoLink === paginaAtual) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
 }
 
 // ===== EFEITOS VISUAIS =====
@@ -58,12 +109,10 @@ function adicionarEfeitoBrilho() {
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => {
     card.addEventListener('mouseenter', function() {
-      this.style.transform = 'scale(1.05)';
-      this.style.boxShadow = '0 0 20px rgba(102, 204, 255, 0.5)';
+      this.classList.add('card-destacado');
     });
     card.addEventListener('mouseleave', function() {
-      this.style.transform = 'scale(1)';
-      this.style.boxShadow = 'none';
+      this.classList.remove('card-destacado');
     });
   });
 }
@@ -72,6 +121,9 @@ function adicionarEfeitoBrilho() {
 window.addEventListener('DOMContentLoaded', function() {
   mostrarCitacaoAleatoria();
   adicionarEfeitoBrilho();
+  configurarMenu();
+  marcarPaginaAtual();
+  criarBotaoTopo();
 });
 
 // Mostrar/ocultar botão topo ao scroll

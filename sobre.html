@@ -4,28 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre - Wiki do Universo</title>
-  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/sistema-solar.css">
+  <link rel="stylesheet" href="css/menu.css">
 </head>
 <body>
 
-  <header>
-    <h1>🌌 Wiki do Universo</h1>
+  <header class="site-header">
+    <div class="site-header-conteudo">
+    <a class="logo-rgb" href="index.html">🌌 Wiki do Universo</a>
     
-    <nav>
+    <button class="menu-toggle" type="button" aria-controls="menu-principal" aria-expanded="false">
+      <span class="menu-icone">☰</span> Menu
+    </button>
+
+    <nav id="menu-principal" class="site-nav" aria-label="Navegação principal">
       <a href="index.html">Início</a>
       <a href="terra.html">Planetas</a>
       <a href="via-lactea.html">Via Láctea</a>
       <a href="curiosidades.html">Curiosidades</a>
       <a href="sobre.html">Sobre</a>
+      <a href="pagina-de-contato.html">Contato</a>
     </nav>
+    </div>
   </header>
 
   <!-- Citação do dia sobre o universo -->
-  <div style="background: linear-gradient(135deg, #1a3a52 0%, #2d5a7b 100%); padding: 30px 20px; text-align: center; border-left: 5px solid #66ccff; margin: 20px 0;">
-    <p id="citacao" style="font-size: 1.3em; font-style: italic; color: #e8f4f8; margin: 0; line-height: 1.6;">
+  <div class="citacao-destaque">
+    <p id="citacao">
       Carregando citação cósmica...
     </p>
-    <button onclick="trocarCitacao()" style="margin-top: 15px; padding: 10px 20px; background: #66ccff; color: #0b1020; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+    <button onclick="trocarCitacao()">
       ✨ Próxima Citação
     </button>
   </div>
@@ -38,10 +46,7 @@
         <strong>Título do Projeto:</strong> Wiki do Universo
       </p>
       <p>
-        <strong>Descrição:</strong> Este projeto é uma wiki interativa sobre astronomia, 
-        planetas, estrelas, galáxias e outros assuntos fascinantes do espaço. 
-        O objetivo é reunir e compartilhar informações de forma educativa e acessível 
-        sobre os mistérios do universo que nos rodeia.
+        <strong>Descrição:</strong> Esta wiki reúne informações concisas e acessíveis sobre planetas, estrelas, galáxias e outros temas do espaço.
       </p>
       <p>
         <strong>Tema Escolhido:</strong> Exploração do Sistema Solar e do Universo
@@ -51,17 +56,17 @@
     <section class="categoria">
       <h2>👤 Sobre o Desenvolvedor</h2>
       
-      <div style="background: #1a2847; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <div class="perfil">
         <h3>Informações Pessoais</h3>
         
         <p>
           <strong>Nome Completo:</strong> 
-          <span style="color: #a0a0a0;">DAVI ALVES MARES</span>
+          <span>DAVI ALVES MARES</span>
         </p>
         
         <p>
           <strong>Formação:</strong> 
-          <span style="color: #a0a0a0;">Sistemas de Informação, cursando</span>
+          <span>Sistemas de Informação, cursando</span>
         </p>
         
         <p>
@@ -71,29 +76,25 @@
         
         <p>
           <strong>Período:</strong> 
-          <span style="color: #a0a0a0;">5º semestre</span>
+          <span>5º semestre</span>
         </p>
 
         <h3>Sobre Mim</h3>
         
         <p>
-          Sou Davi, tenho 20 anos (2026). Nasci em Minas Gerais, porém atualmente 
-          moro em Sorriso, MT. Estou cursando Sistemas de Informação (SI) na UNEMAT em Sinop, MT. 
-          Escolhi estudar na área de tecnologia porque tenho grande interesse em desenvolvimento web 
-          e programação. Além dos estudos, sou apaixonado por tecnologia e games, o que me motivou 
-          a ingressar na área de desenvolvimento de software.
+          Sou Davi Alves Mares, estudante de Sistemas de Informação na UNEMAT. Moro em Sorriso, MT, e tenho interesse em desenvolvimento web, programação, tecnologia e games.
         </p>
 
         <h3>Contato</h3>
         
         <p>
           <strong>Email:</strong> 
-          <span style="color: #a0a0a0;">davi.mares@unemat.br</span>
+          <span>davi.mares@unemat.br</span>
         </p>
         
         <p>
           <strong>Telefone:</strong> 
-          <span style="color: #a0a0a0;">(66) 99994-7514</span>
+          <span>(66) 99994-7514</span>
         </p>
         
         <p>
@@ -102,11 +103,11 @@
         <ul>
           <li>
             <strong>Instagram:</strong> 
-            <span style="color: #a0a0a0;">@davi_maress</span>
+            <span>@davi_maress</span>
           </li>
             <li>    
             <strong>GitHub:</strong> 
-            <span style="color: #a0a0a0;">@Davi-Mares</span>
+            <span>@Davi-Mares</span>
           </li>
         </ul>
       </div>
@@ -117,12 +118,7 @@
       <h2>🎯 Motivação do Projeto</h2>
       
       <p>
-        Escolhi o tema de Astronomia e Universo porque sou profundamente fascinado pelo cosmos 
-        e seus mistérios. Embora não seja muito bom na parte matemática, tenho grande interesse 
-        e paixão por tópicos como buracos negros, galáxias, sistemas estelares e tudo relacionado 
-        ao universo. Este projeto me permite combinar minha paixão pela astronomia com minhas 
-        habilidades em desenvolvimento web, criando uma plataforma educativa para compartilhar 
-        conhecimento sobre o espaço de forma acessível e visualmente interessante.
+        Escolhi astronomia porque quero unir meu interesse por buracos negros, galáxias e sistemas estelares à prática de desenvolvimento web. O objetivo é apresentar ciência espacial de forma clara, visual e acessível.
       </p>
     </section>
 
