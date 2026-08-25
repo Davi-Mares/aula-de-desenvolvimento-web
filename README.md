@@ -22,8 +22,26 @@ Organizar informações sobre astronomia em páginas simples e fáceis de navega
 - Node.js
 - Git e GitHub
 
-## Estrutura inicial
+## Funcionalidades atuais
 
-O projeto já possui algumas páginas sobre o Universo e o Sistema Solar. Elas serão modificadas e melhoradas durante o desenvolvimento da disciplina.
+- Página inicial com seções sobre o Sistema Solar, o Universo e outros conteúdos.
+- Cards de acesso aos oito planetas e ao Sol, organizados a partir do Sol.
+- Navegação planetária presente nas páginas do Sistema Solar, com a ordem completa dos astros, destaque da página atual e links para o planeta anterior e o próximo.
+- Menu principal responsivo, citações aleatórias e botão para voltar ao topo.
+- Páginas individuais para o Sol, Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano e Netuno.
+
+## Estrutura do projeto
+
+- Arquivos `.html`: páginas do Wiki e páginas individuais dos astros.
+- `css/`: estilos da interface e do menu.
+- `js/app.js`: citações, menu, navegação atual, navegação entre planetas e botão para voltar ao topo.
+- `img/`: imagens usadas nas páginas.
+- `audios/`: arquivos de áudio do projeto.
+
+## Ordem do Sistema Solar
+
+A navegação entre as páginas segue a ordem dos corpos a partir do Sol:
+
+**Sol → Mercúrio → Vênus → Terra → Marte → Júpiter → Saturno → Urano → Netuno**
 
 > Projeto desenvolvido como parte das atividades da disciplina de Desenvolvimento Web.
