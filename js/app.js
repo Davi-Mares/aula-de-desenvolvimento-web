@@ -103,6 +103,50 @@ function marcarPaginaAtual() {
   });
 }
 
+function criarNavegacaoPlanetaria() {
+  const paginas = [
+    { arquivo: 'sol.html', nome: 'Sol' },
+    { arquivo: 'mercurio.html', nome: 'Mercúrio' },
+    { arquivo: 'venus.html', nome: 'Vênus' },
+    { arquivo: 'terra.html', nome: 'Terra' },
+    { arquivo: 'marte.html', nome: 'Marte' },
+    { arquivo: 'jupiter.html', nome: 'Júpiter' },
+    { arquivo: 'saturno.html', nome: 'Saturno' },
+    { arquivo: 'urano.html', nome: 'Urano' },
+    { arquivo: 'netuno.html', nome: 'Netuno' }
+  ];
+  const paginaAtual = window.location.pathname.split('/').pop();
+  const indiceAtual = paginas.findIndex(pagina => pagina.arquivo === paginaAtual);
+  const cabecalho = document.querySelector('.page-header');
+
+  if (indiceAtual === -1 || !cabecalho) {
+    return;
+  }
+
+  const navegacao = document.createElement('nav');
+  navegacao.className = 'navegacao-planetaria';
+  navegacao.setAttribute('aria-label', 'Ordem do Sistema Solar');
+
+  const itens = paginas.map((pagina, indice) => {
+    const atual = indice === indiceAtual;
+    return `<li${atual ? ' class="atual"' : ''}><a href="${pagina.arquivo}"${atual ? ' aria-current="page"' : ''}>${pagina.nome}</a></li>`;
+  }).join('');
+
+  const anterior = indiceAtual > 0 ? paginas[indiceAtual - 1] : null;
+  const proximo = indiceAtual < paginas.length - 1 ? paginas[indiceAtual + 1] : null;
+  navegacao.innerHTML = `
+    <div class="sequencia-planetas">
+      <span class="sequencia-titulo">Ordem a partir do Sol</span>
+      <ol>${itens}</ol>
+    </div>
+    <div class="controles-planetas">
+      ${anterior ? `<a href="${anterior.arquivo}" class="planeta-anterior">← ${anterior.nome}</a>` : '<span></span>'}
+      ${proximo ? `<a href="${proximo.arquivo}" class="planeta-proximo">${proximo.nome} →</a>` : '<span></span>'}
+    </div>`;
+
+  cabecalho.insertAdjacentElement('afterend', navegacao);
+}
+
 // ===== EFEITOS VISUAIS =====
 // Efeito de brilho ao passar o mouse sobre os cards
 function adicionarEfeitoBrilho() {
@@ -123,6 +167,7 @@ window.addEventListener('DOMContentLoaded', function() {
   adicionarEfeitoBrilho();
   configurarMenu();
   marcarPaginaAtual();
+  criarNavegacaoPlanetaria();
   criarBotaoTopo();
 });
 
