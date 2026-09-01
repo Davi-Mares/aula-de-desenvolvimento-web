@@ -4,98 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wiki do Universo</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/sistema-solar.css">
     <link rel="stylesheet" href="css/menu.css">
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="site-header-conteudo">
-        <a class="logo-rgb" href="index.html">🌌 Wiki do Universo</a>
-
-        <button class="menu-toggle" type="button" aria-controls="menu-principal" aria-expanded="false">
-            <span class="menu-icone">☰</span> Menu
-        </button>
-
-        <nav id="menu-principal" class="site-nav" aria-label="Navegação principal">
-            <a href="index.html">Início</a>
-            <a href="terra.html">Planetas</a>
-            <a href="via-lactea.html">Via Láctea</a>
-            <a href="curiosidades.html">Curiosidades</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="pagina-de-contato.html">Contato</a>
+    <header class="site-header bg-dark text-white py-3 sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand logo-rgb" href="index.html">🌌 Wiki do Universo</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menu-principal">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="terra.html">Planetas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="via-lactea.html">Via Láctea</a></li>
+                        <li class="nav-item"><a class="nav-link" href="curiosidades.html">Curiosidades</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pagina-de-contato.html">Contato</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
-        </div>
     </header>
 
     <!-- Citação do dia sobre o universo -->
-    <div class="citacao-destaque">
-        <p id="citacao">
-            Carregando citação cósmica...
-        </p>
-        <button onclick="trocarCitacao()">
-            ✨ Próxima Citação
-        </button>
+    <div class="container my-5">
+        <div class="alert alert-info text-center citacao-destaque" role="alert">
+            <p id="citacao" class="mb-3">
+                Carregando citação cósmica...
+            </p>
+            <button class="btn btn-primary" onclick="trocarCitacao()">
+                ✨ Próxima Citação
+            </button>
+        </div>
     </div>
 
-    <main>
+    <main class="container my-5">
 
-        <section class="intro" id="inicio">
-            <h2>Bem-vindo!</h2>
-            <img class="imagem-intro" src="img/imagem_da_Terra_menu.jpeg" alt="Imagem da Terra vista do espaço">
-            <p>
-                Este é o início da minha Wiki sobre o Universo.
-                Aqui serão reunidas informações sobre astronomia,
-                planetas, estrelas, galáxias e outros assuntos do espaço.
-            </p>
-            <p>
-                Explore também a <a href="#sistema-solar">seção do Sistema Solar</a>
-                ou consulte a <a href="https://pt.wikipedia.org/wiki/Astronomia" target="_blank" rel="noopener noreferrer">Wikipédia sobre astronomia</a>.
-            </p>
-        </section>
-
-        <section class="categoria" id="sistema-solar">
-            <h2>🪐 Sistema Solar</h2>
-
-            <div class="cards cards-planetas">
-                <a class="card" href="sol.html">☀️ Sol</a>
-                <a class="card" href="mercurio.html">Mercúrio</a>
-                <a class="card" href="venus.html">Vênus</a>
-                <a class="card" href="terra.html">🌍 Terra</a>
-                <a class="card" href="marte.html">Marte</a>
-                <a class="card" href="jupiter.html">Júpiter</a>
-                <a class="card" href="saturno.html">Saturno</a>
-                <a class="card" href="urano.html">Urano</a>
-                <a class="card" href="netuno.html">Netuno</a>
+        <section class="intro mb-5" id="inicio">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="mb-3">Bem-vindo!</h2>
+                    <p>
+                        Este é o início da minha Wiki sobre o Universo.
+                        Aqui serão reunidas informações sobre astronomia,
+                        planetas, estrelas, galáxias e outros assuntos do espaço.
+                    </p>
+                    <p>
+                        Explore também a <a href="#sistema-solar">seção do Sistema Solar</a>
+                        ou consulte a <a href="https://pt.wikipedia.org/wiki/Astronomia" target="_blank" rel="noopener noreferrer">Wikipédia sobre astronomia</a>.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid rounded imagem-intro" src="img/imagem_da_Terra_menu.jpeg" alt="Imagem da Terra vista do espaço">
+                </div>
             </div>
         </section>
 
-        <section class="categoria">
-            <h2>🌌 Universo</h2>
-
-            <div class="cards">
-                <a class="card" href="universo.html">O Universo</a>
-                <a class="card" href="via-lactea.html">Via Láctea</a>
+        <section class="mb-5" id="sistema-solar">
+            <h2 class="mb-4">🪐 Sistema Solar</h2>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="sol.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">☀️ Sol</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="mercurio.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Mercúrio</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="venus.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Vênus</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="terra.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">🌍 Terra</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="marte.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Marte</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="jupiter.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Júpiter</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="saturno.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Saturno</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="urano.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Urano</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="netuno.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Netuno</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
         </section>
 
-        <section class="categoria">
-            <h2>✨ Outros</h2>
+        <section class="mb-5">
+            <h2 class="mb-4">🌌 Universo</h2>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="universo.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">O Universo</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="via-lactea.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Via Láctea</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-            <div class="cards">
-                <a class="card" href="curiosidades.html">Curiosidades</a>
-                <a class="card" href="sobre.html">Sobre</a>
-                <a class="card" href="pagina-de-contato.html">Contato</a>
+        <section class="mb-5">
+            <h2 class="mb-4">✨ Outros</h2>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="curiosidades.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Curiosidades</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="sobre.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Sobre</h5>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <a href="pagina-de-contato.html" class="card text-decoration-none h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Contato</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <footer>
-        <p>Projeto de Desenvolvimento Web — UNEMAT</p>
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <p class="mb-0">Projeto de Desenvolvimento Web — UNEMAT</p>
     </footer>
 
-  <script src="js/app.js"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 </html>

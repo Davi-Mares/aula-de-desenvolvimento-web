@@ -25,7 +25,12 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 - HTML5
 - CSS3
 - JavaScript
+- Bootstrap 5
 - Git e GitHub
+
+## Framework Escolhido
+
+**Bootstrap 5** foi escolhido como framework CSS por ser confiável, amplamente utilizado na indústria, com excelente suporte responsivo via grid e componentes prontos (navbar, cards, forms). Mantém a estrutura semântica HTML intacta, integrando-se via classes nos elementos existentes.
 
 ## Estrutura
 
