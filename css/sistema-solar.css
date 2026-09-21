@@ -907,6 +907,63 @@ li {
   object-fit: contain;
 }
 
+/* ===== SVG INTERATIVO NOS CARDS ===== */
+.planeta-svg {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.planeta-circulo {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.planeta-anel {
+  transition: transform 0.4s ease, stroke 0.4s ease;
+}
+
+.card:hover .planeta-circulo {
+  transform: scale(1.15) rotate(10deg);
+  filter: drop-shadow(0 0 12px rgba(73, 214, 255, 0.6));
+}
+
+.card:hover .planeta-anel {
+  transform: rotateX(15deg) scale(1.1);
+  stroke: #FFD700;
+}
+
+/* ===== ACESSIBILIDADE: RESPEITA PREFERÊNCIA DE ANIMAÇÕES REDUZIDAS ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .planeta-circulo,
+  .planeta-anel {
+    transition: none;
+  }
+
+  .card:hover .planeta-circulo,
+  .card:hover .planeta-anel {
+    transform: none;
+    filter: none;
+  }
+
+  @keyframes rgbGlow {
+    0%, 100% { text-shadow: 0 0 10px #49d6ff, 0 0 18px #49d6ff; }
+  }
+
+  @keyframes girar-rgb {
+    0%, 100% { transform: rotate(0deg); }
+  }
+}
+
 @media (max-width: 760px) {
   header,
   .page-header,
