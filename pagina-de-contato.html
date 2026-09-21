@@ -51,8 +51,8 @@
         <form action="#contato" method="post" class="needs-validation" novalidate>
           <div class="mb-3">
             <label for="nome" class="form-label">Nome completo</label>
-            <input id="nome" name="nome" type="text" class="form-control" required pattern="[A-Za-zÀ-ÿ ]{3,}" title="Informe pelo menos 3 letras.">
-            <div class="invalid-feedback">Informe pelo menos 3 letras.</div>
+            <input id="nome" name="nome" type="text" class="form-control" required pattern="[A-Za-zÀ-ÿ ]{3,}" title="Informe pelo menos 3 letras." aria-describedby="nome-help">
+            <div id="nome-help" class="invalid-feedback">Informe pelo menos 3 letras.</div>
           </div>
 
           <div class="mb-3">

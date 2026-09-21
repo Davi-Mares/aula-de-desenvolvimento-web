@@ -933,6 +933,26 @@ li {
   stroke: #FFD700;
 }
 
+/* ===== ACESSIBILIDADE: SKIP LINK ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #49d6ff;
+  color: #040713;
+  padding: 8px 16px;
+  z-index: 9999;
+  border-radius: 0 0 8px 0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #49d6ff;
+  outline-offset: 2px;
+}
+
 /* ===== ACESSIBILIDADE: RESPEITA PREFERÊNCIA DE ANIMAÇÕES REDUZIDAS ===== */
 @media (prefers-reduced-motion: reduce) {
   *,

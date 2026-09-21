@@ -11,16 +11,19 @@
 </head>
 <body>
 
-    <header class="site-header bg-dark text-white py-3 sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Skip link para acessibilidade - pula direto ao conteúdo principal -->
+    <a href="#inicio" class="btn btn-primary skip-link">Pular para conteúdo principal</a>
+
+    <header class="site-header bg-dark text-white py-3 sticky-top" role="banner">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegação principal">
             <div class="container-fluid">
-                <a class="navbar-brand logo-rgb" href="index.html">🌌 Wiki do Universo</a>
+                <a class="navbar-brand logo-rgb" href="index.html" aria-current="page">🌌 Wiki do Universo</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Alternar navegação">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menu-principal">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="index.html" aria-current="page">Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="terra.html">Planetas</a></li>
                         <li class="nav-item"><a class="nav-link" href="via-lactea.html">Via Láctea</a></li>
                         <li class="nav-item"><a class="nav-link" href="curiosidades.html">Curiosidades</a></li>
@@ -295,7 +298,7 @@
 
     </main>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5">
+    <footer class="bg-dark text-white text-center py-4 mt-5" role="contentinfo">
         <p class="mb-0">Projeto de Desenvolvimento Web — UNEMAT</p>
     </footer>
 
