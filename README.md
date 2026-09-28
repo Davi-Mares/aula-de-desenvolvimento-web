@@ -1,6 +1,6 @@
 # Wiki do Universo
 
-Projeto desenvolvido por **Davi Alves Mares** para a disciplina de Desenvolvimento Web do curso de Sistemas de Informação da UNEMAT.
+Projeto desenvolvido por **Davi Alves Mares** apartir da disciplina de Desenvolvimento Web do curso de Sistemas de Informação da UNEMAT.
 
 ## Sobre o projeto
 
