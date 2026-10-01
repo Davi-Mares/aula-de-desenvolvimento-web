@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wiki do Universo</title>
+    <meta name="description" content="Wiki do Universo — planetas, Via Láctea, curiosidades e mais sobre astronomia.">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/sistema-solar.css">
@@ -14,26 +15,7 @@
     <!-- Skip link para acessibilidade - pula direto ao conteúdo principal -->
     <a href="#inicio" class="btn btn-primary skip-link">Pular para conteúdo principal</a>
 
-    <header class="site-header bg-dark text-white py-3 sticky-top" role="banner">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegação principal">
-            <div class="container-fluid">
-                <a class="navbar-brand logo-rgb" href="index.html" aria-current="page">🌌 Wiki do Universo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Alternar navegação">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="menu-principal">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="index.html" aria-current="page">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="terra.html">Planetas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="via-lactea.html">Via Láctea</a></li>
-                        <li class="nav-item"><a class="nav-link" href="curiosidades.html">Curiosidades</a></li>
-                        <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
-                        <li class="nav-item"><a class="nav-link" href="pagina-de-contato.html">Contato</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="app-navbar"></div>
 
     <!-- Citação do dia sobre o universo -->
     <div class="container my-5">
@@ -143,9 +125,7 @@
 
     </main>
 
-    <footer class="bg-dark text-white text-center py-4 mt-5" role="contentinfo">
-        <p class="mb-0">Projeto de Desenvolvimento Web — UNEMAT</p>
-    </footer>
+    <div id="app-footer"></div>
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

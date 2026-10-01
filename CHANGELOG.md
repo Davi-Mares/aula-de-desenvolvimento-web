@@ -1,5 +1,43 @@
 # Changelog - Wiki do Universo
 
+## [v3.0.0] - Unificação da Navegação, Limpeza e Som Ambiente
+
+### ✨ Principais Mudanças
+
+#### 1. 🧭 Navbar e rodapé unificados em todas as páginas
+- **Descrição**: a navbar Bootstrap (antes só em `index.html` e `pagina-de-contato.html`) e o rodapé agora são montados por JavaScript (`montarNavbar()`/`montarRodape()`) e aparecem em **todas** as 15 páginas, incluindo as 9 de planetas, `universo.html`, `via-lactea.html`, `curiosidades.html` e `sobre.html`.
+- **Benefícios**: antes, sair da página inicial deixava o visitante sem menu (só um link "Voltar"); agora dá para navegar entre qualquer seção do site a partir de qualquer página. Um novo item "Universo" foi adicionado ao menu (a página existia mas não tinha link).
+- **Arquivos alterados**: `js/app.js`, todas as páginas `.html`
+- **Status**: ✅ Concluído
+
+#### 2. 🧹 Limpeza de CSS duplicado e JS morto
+- **Descrição**: o `sistema-solar.css` tinha um segundo `body`/`header`/`a` conflitando com o primeiro (fontes e cores disputando); removido, mantendo as variáveis de cor em um único `:root`. O menu antigo (`.site-nav`, `.menu-toggle`, usado só em `sobre.html`) e as funções `configurarMenu()`/`marcarPaginaAtual()` (que não encontravam mais elemento nenhum) foram removidos. O arquivo órfão `menu.html` (não referenciado em lugar nenhum) foi excluído.
+- **Arquivos alterados**: `css/sistema-solar.css`, `css/menu.css`, `js/app.js`
+- **Status**: ✅ Concluído
+
+#### 3. ✅ Validação do formulário de contato unificada
+- **Descrição**: `pagina-de-contato.html` tinha dois validadores rodando ao mesmo tempo no mesmo formulário (o `needs-validation` nativo do Bootstrap e uma função antiga em `app.js`). Mantido apenas o validador Bootstrap.
+- **Arquivos alterados**: `js/app.js`
+- **Status**: ✅ Concluído
+
+#### 4. 🪐 Fotos reais nos cards do Sistema Solar
+- **Descrição**: os círculos em SVG gerados nos cards da página inicial foram substituídos por fotos reais de cada planeta (já existentes em `img/`), em moldura circular com destaque ao passar o mouse.
+- **Arquivos alterados**: `js/app.js`, `css/sistema-solar.css`
+
+#### 5. 🎧 Player de som ambiente
+- **Descrição**: implementado o player de áudio que só existia como CSS esboçado (`.audio-player`, nunca usado). Botão flutuante liga/pausa a trilha ambiente (`audios/this-is-interstellar-on-4k.mp3`, em loop e volume baixo); a preferência é lembrada entre páginas via `localStorage`.
+- **Observação**: navegadores podem bloquear a retomada automática do som ao mudar de página sem uma interação recente; nesse caso o botão volta ao estado pausado e basta um clique.
+- **Arquivos alterados**: `js/app.js`, `css/menu.css`
+- **Status**: ✅ Concluído
+
+#### 6. 🔒 Dados de contato revisados
+- **Descrição**: removido o telefone pessoal da página "Sobre"; a seção de contato agora traz apenas e-mail (institucional) e Instagram.
+- **Arquivos alterados**: `sobre.html`
+
+#### 7. 🏷️ Outras melhorias
+- Tag `<center>` (obsoleta) removida das páginas de planeta.
+- `<meta name="description">` adicionada em todas as páginas.
+
 ## [v2.0.0] - Refatoração Completa com Bootstrap 5 e Design Melhorado
 
 ### ✨ Principais Mudanças

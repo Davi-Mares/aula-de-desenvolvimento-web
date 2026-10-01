@@ -4,39 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre - Wiki do Universo</title>
+  <meta name="description" content="Sobre o projeto Wiki do Universo e seu desenvolvedor, Davi Alves Mares (UNEMAT).">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/sistema-solar.css">
   <link rel="stylesheet" href="css/menu.css">
 </head>
 <body>
-
-  <header class="site-header">
-    <div class="site-header-conteudo">
-    <a class="logo-rgb" href="index.html">🌌 Wiki do Universo</a>
-    
-    <button class="menu-toggle" type="button" aria-controls="menu-principal" aria-expanded="false">
-      <span class="menu-icone">☰</span> Menu
-    </button>
-
-    <nav id="menu-principal" class="site-nav" aria-label="Navegação principal">
-      <a href="index.html">Início</a>
-      <a href="terra.html">Planetas</a>
-      <a href="via-lactea.html">Via Láctea</a>
-      <a href="curiosidades.html">Curiosidades</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="pagina-de-contato.html">Contato</a>
-    </nav>
-    </div>
-  </header>
-
-  <!-- Citação do dia sobre o universo -->
-  <div class="citacao-destaque">
-    <p id="citacao">
-      Carregando citação cósmica...
-    </p>
-    <button onclick="trocarCitacao()">
-      ✨ Próxima Citação
-    </button>
-  </div>
+  <div id="app-navbar"></div>
 
   <main>
 
@@ -91,25 +65,11 @@
           <strong>Email:</strong> 
           <span>davi.mares@unemat.br</span>
         </p>
-        
+
         <p>
-          <strong>Telefone:</strong> 
-          <span>(66) 99994-7514</span>
+          <strong>Instagram:</strong> 
+          <span>@davi_maress</span>
         </p>
-        
-        <p>
-          <strong>Redes Sociais:</strong>
-        </p>
-        <ul>
-          <li>
-            <strong>Instagram:</strong> 
-            <span>@davi_maress</span>
-          </li>
-            <li>    
-            <strong>GitHub:</strong> 
-            <span>@Davi-Mares</span>
-          </li>
-        </ul>
       </div>
 
     </section>
@@ -135,10 +95,9 @@
 
   </main>
 
-  <footer>
-    <p>Projeto de Desenvolvimento Web — UNEMAT</p>
-  </footer>
+  <div id="app-footer"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/app.js" defer></script>
 
 </body>

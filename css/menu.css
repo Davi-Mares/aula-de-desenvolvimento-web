@@ -1,16 +1,7 @@
-/* Cabeçalho e navegação compartilhados pela home e pela página Sobre. */
+/* Cabeçalho e navegação compartilhados por todas as páginas do site. */
 .site-header {
 	position: relative;
 	z-index: 10;
-}
-
-.site-header-conteudo {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 24px;
-	max-width: 1140px;
-	margin: 0 auto;
 }
 
 .logo-rgb {
@@ -158,48 +149,6 @@
 	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2873, 214, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
-.menu-toggle {
-	display: none;
-}
-
-.site-nav {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-	gap: 18px;
-	margin-top: 0;
-}
-
-.site-nav a {
-	position: relative;
-	margin: 0;
-	padding: 8px 0;
-	color: #d7edf1;
-	font-weight: 600;
-}
-
-.site-nav a::after {
-	content: '';
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	height: 2px;
-	background: #ff9b71;
-	transform: scaleX(0);
-	transform-origin: center;
-	transition: transform 0.25s ease;
-}
-
-.site-nav a:hover::after,
-.site-nav a[aria-current='page']::after {
-	transform: scaleX(1);
-}
-
-.site-nav a[aria-current='page'] {
-	color: #63e6d4;
-}
-
 /* ===== BOTÃO TOPO ===== */
 .btn-topo {
 	position: fixed;
@@ -270,37 +219,50 @@
 	}
 }
 
-@media (max-width: 760px) {
-	.site-header-conteudo {
-		flex-wrap: wrap;
-	}
+/* ===== PLAYER DE SOM AMBIENTE ===== */
+.player-ambiente {
+	position: fixed;
+	left: 22px;
+	bottom: 22px;
+	z-index: 20;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 18px;
+	border: 2px solid #49d6ff;
+	border-radius: 999px;
+	background: linear-gradient(135deg, rgba(16, 40, 59, 0.9), rgba(7, 20, 40, 0.95));
+	color: #49d6ff;
+	font-weight: 700;
+	font-size: 0.92rem;
+	line-height: 1;
+	box-shadow: 0 8px 24px rgba(73, 214, 255, 0.25), inset 0 0 12px rgba(73, 214, 255, 0.1);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
 
-	.menu-toggle {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		margin-left: auto;
-		padding: 10px 14px;
-		border: 1px solid rgba(99, 230, 212, 0.35);
-		border-radius: 8px;
-		background: rgba(99, 230, 212, 0.1);
-		color: #f4fbff;
-		font-weight: 700;
-	}
+.player-ambiente:hover,
+.player-ambiente[aria-pressed='true'] {
+	background: linear-gradient(135deg, rgba(20, 60, 80, 0.95), rgba(10, 30, 50, 0.98));
+	border-color: #fff;
+	color: #fff;
+	box-shadow: 0 12px 32px rgba(73, 214, 255, 0.4), inset 0 0 16px rgba(73, 214, 255, 0.15);
+}
 
-	.site-nav {
+.player-ambiente:hover {
+	transform: translateY(-4px);
+}
+
+.player-ambiente .icone {
+	font-size: 1.1rem;
+}
+
+@media (max-width: 480px) {
+	.player-ambiente .rotulo {
 		display: none;
-		flex-basis: 100%;
-		flex-direction: column;
-		gap: 4px;
-		padding: 12px 0 4px;
 	}
 
-	.site-nav.menu-aberto {
-		display: flex;
-	}
-
-	.site-nav a {
-		padding: 10px 4px;
+	.player-ambiente {
+		padding: 12px;
 	}
 }
