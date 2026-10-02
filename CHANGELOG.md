@@ -1,5 +1,18 @@
 # Changelog - Wiki do Universo
 
+## [v3.1.0] - Fontes confiáveis e ajuste de menu
+
+### ✨ Principais Mudanças
+
+#### 1. 📚 Fontes confiáveis citadas em cada página
+- **Descrição**: cada página de planeta, o Sol, a Via Láctea, "O Universo" e "Curiosidades" agora têm uma seção "Fontes" no rodapé do conteúdo, linkando para NASA Science, NASA Space Place ou ESA — no lugar de citar só "Wikipedia" genericamente na página de contato.
+- **Dados revisados**: o texto sobre a colisão Via Láctea–Andrômeda foi atualizado com o resultado de 2025 (Hubble + Gaia), que reduziu a certeza da fusão de "praticamente certa" para cerca de 50% de chance em 10 bilhões de anos. O trecho sobre buracos negros em `universo.html` passou a mencionar também a imagem de 2022 de Sagitário A* pelo Event Horizon Telescope (antes só citava M87 em 2019).
+- **Arquivos alterados**: todas as páginas de conteúdo, `pagina-de-contato.html`, `css/sistema-solar.css`
+
+#### 2. 🧭 Ajuste fino da navbar
+- **Descrição**: em larguras entre 992px e 1250px, o item "Via Láctea" (duas palavras) quebrava em duas linhas dentro do próprio link. Ajustado com `white-space: nowrap` e um leve ajuste de padding/tamanho de fonte nessa faixa de largura.
+- **Arquivos alterados**: `css/menu.css`
+
 ## [v3.0.0] - Unificação da Navegação, Limpeza e Som Ambiente
 
 ### ✨ Principais Mudanças
