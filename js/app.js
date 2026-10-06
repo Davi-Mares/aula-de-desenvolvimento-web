@@ -18,6 +18,20 @@ function montarNavbar() {
 
   const itens = NAVEGACAO_PRINCIPAL.map((item) => {
     const ativo = item.paginas.includes(PAGINA_ATUAL);
+
+    if (item.submenu) {
+      const subitens = item.submenu.map((sub) => {
+        const atual = sub.pagina === PAGINA_ATUAL;
+        return `<li><a class="dropdown-item${atual ? " active" : ""}" href="${sub.pagina}"${atual ? ' aria-current="page"' : ""}>${sub.nome}</a></li>`;
+      }).join("");
+
+      return `
+      <li class="nav-item dropdown">
+        <button type="button" class="nav-link dropdown-toggle${ativo ? " active" : ""}" data-bs-toggle="dropdown" aria-expanded="false">${item.rotulo}</button>
+        <ul class="dropdown-menu dropdown-menu-end">${subitens}</ul>
+      </li>`;
+    }
+
     return `
       <li class="nav-item">
         <a class="nav-link${ativo ? " active" : ""}" href="${item.href}"${ativo ? ' aria-current="page"' : ""}>${item.rotulo}</a>
@@ -193,7 +207,7 @@ function salvarPreferenciaSom(ativo) {
 }
 
 function criarPlayerAmbiente() {
-  const audio = new Audio("audios/this-is-interstellar-on-4k.mp3");
+  const audio = new Audio("audio/som-ambiente-interestelar.mp3");
   audio.loop = true;
   audio.preload = "none";
   audio.volume = 0.35;
@@ -321,7 +335,7 @@ function criarSistemaAnimado() {
 
   const criarAstro = (corpo, classe = "") => `
     <a class="astro ${classe}" href="${corpo.pagina}" style="--tamanho: ${corpo.orbita.tamanho}">
-      <img src="${corpo.imagem}" alt="" loading="lazy">
+      <img src="${corpo.orbita.imagem || corpo.imagem}" alt="" loading="lazy">
       <span class="astro-nome">${corpo.nome}</span>
     </a>`;
 
@@ -606,6 +620,90 @@ function criarBusca() {
 }
 
 // ---------------------------------------------------------------------------
+// Animações ao rolar — blocos de conteúdo surgem com um leve deslize quando
+// entram na tela. Quem prefere menos movimento vê tudo direto, sem efeito.
+// ---------------------------------------------------------------------------
+
+const SELETORES_ANIMADOS = [
+  ".secao-cards .col-12",
+  ".intro",
+  ".secao-sistema",
+  ".apod",
+  ".categoria",
+  ".ficha-tecnica",
+  ".artigo > p",
+  ".artigo > img",
+  ".page-panel > h2",
+  ".page-panel > p",
+  ".page-panel > figure",
+  ".marco",
+  ".constelacao",
+  ".viagem-painel"
+].join(", ");
+
+function iniciarAnimacoesAoRolar() {
+  const movimentoReduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (movimentoReduzido || !("IntersectionObserver" in window)) return;
+
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (!entrada.isIntersecting) return;
+      entrada.target.classList.add("visivel");
+      observador.unobserve(entrada.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px" });
+
+  document.querySelectorAll(SELETORES_ANIMADOS).forEach((elemento) => {
+    // Cards lado a lado entram um pouquinho depois do outro (efeito cascata).
+    const posicao = [...elemento.parentElement.children].indexOf(elemento);
+    elemento.style.setProperty("--atraso-animacao", `${(posicao % 3) * 90}ms`);
+    elemento.classList.add("animar");
+    observador.observe(elemento);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// PWA — o service worker (pwa/service-worker.js, carregado pelo sw.js da
+// raiz) guarda as páginas para funcionarem offline, e o botão "Instalar app"
+// aparece quando o navegador permite instalar.
+// Só funciona com o site servido por http(s), como no GitHub Pages.
+// ---------------------------------------------------------------------------
+
+function iniciarPwa() {
+  if ("serviceWorker" in navigator && window.location.protocol.startsWith("http")) {
+    navigator.serviceWorker.register("sw.js").catch(() => {
+      // Sem service worker o site continua funcionando normalmente, só não offline.
+    });
+  }
+
+  let pedidoDeInstalacao = null;
+  const botao = document.createElement("button");
+  botao.type = "button";
+  botao.className = "btn botao-coral botao-instalar";
+  botao.textContent = "📲 Instalar o app";
+  botao.hidden = true;
+  document.querySelector(".site-footer")?.appendChild(botao);
+
+  window.addEventListener("beforeinstallprompt", (evento) => {
+    evento.preventDefault();
+    pedidoDeInstalacao = evento;
+    botao.hidden = false;
+  });
+
+  botao.addEventListener("click", async () => {
+    if (!pedidoDeInstalacao) return;
+    pedidoDeInstalacao.prompt();
+    await pedidoDeInstalacao.userChoice;
+    pedidoDeInstalacao = null;
+    botao.hidden = true;
+  });
+
+  window.addEventListener("appinstalled", () => {
+    botao.hidden = true;
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Inicialização
 // ---------------------------------------------------------------------------
 
@@ -623,4 +721,10 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarValidacaoFormularios();
   iniciarFormularioContato();
   criarBusca();
+  iniciarPwa();
 });
+
+// As páginas com script próprio (viagem da luz, constelações) também montam
+// o conteúdo no DOMContentLoaded; o requestAnimationFrame espera todos
+// terminarem e liga as animações antes de a tela ser desenhada.
+document.addEventListener("DOMContentLoaded", () => requestAnimationFrame(iniciarAnimacoesAoRolar));

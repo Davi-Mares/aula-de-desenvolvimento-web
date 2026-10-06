@@ -133,6 +133,30 @@
   box-shadow: 0 0 8px rgba(73, 214, 255, 0.8);
 }
 
+/* Submenu "Explorar" */
+.navbar .dropdown-menu {
+  --bs-dropdown-bg: rgba(7, 20, 40, 0.97);
+  --bs-dropdown-border-color: var(--cor-borda);
+  --bs-dropdown-link-color: rgba(231, 246, 255, 0.85);
+  --bs-dropdown-link-hover-color: #63f4ff;
+  --bs-dropdown-link-hover-bg: rgba(73, 214, 255, 0.15);
+  --bs-dropdown-link-active-color: #63f4ff;
+  --bs-dropdown-link-active-bg: rgba(73, 214, 255, 0.22);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(73, 214, 255, 0.12);
+}
+
+.navbar .dropdown-menu li {
+  margin: 0;
+}
+
+.navbar .dropdown-item {
+  padding: 10px 14px;
+  border-radius: var(--raio-pequeno);
+  font-weight: 600;
+}
+
 /* Botão do menu no celular */
 .navbar-toggler {
   padding: 8px 12px;
@@ -172,6 +196,13 @@
     border-left-color: #63f4ff;
     transform: none;
   }
+
+  /* "Explorar" e "Buscar" são botões: ocupam a largura toda como os links */
+  .navbar-nav button.nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+  }
 }
 
 /* Faixa entre o menu recolhido e a largura em que tudo cabe folgado:
@@ -207,7 +238,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: url("../img/fundo-do-site.webp") center / cover no-repeat;
+  background: url("../img/site/fundo-cabecalho.webp") center / cover no-repeat;
   opacity: 0.16;
   filter: blur(1px);
   pointer-events: none;
@@ -297,6 +328,10 @@
 .site-footer p {
   margin: 0;
   color: var(--cor-texto-suave);
+}
+
+.botao-instalar {
+  margin-top: 14px;
 }
 
 /* ---------- Telas pequenas ---------- */

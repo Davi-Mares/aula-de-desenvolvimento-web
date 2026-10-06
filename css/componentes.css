@@ -252,7 +252,7 @@
   margin: 30px 0;
   border: 1px solid rgba(73, 214, 255, 0.22);
   border-radius: 14px;
-  background: url('../img/faixa-brilho.webp') center / cover no-repeat;
+  background: url('../img/site/faixa-brilho.webp') center / cover no-repeat;
   box-shadow: 0 0 20px rgba(73, 214, 255, 0.2);
 }
 
@@ -614,6 +614,13 @@
   animation: brilho-sol 4s ease-in-out infinite alternate;
 }
 
+/* Anel de Saturno em duas metades: a de trás passa por trás do planeta e a
+   da frente (metade de baixo, recortada) passa por cima, como no céu. */
+.com-aneis {
+  isolation: isolate;
+}
+
+.com-aneis::before,
 .com-aneis::after {
   content: '';
   position: absolute;
@@ -626,6 +633,14 @@
   translate: -50% -50%;
   rotate: -20deg;
   pointer-events: none;
+}
+
+.com-aneis::before {
+  z-index: -1;
+}
+
+.com-aneis::after {
+  clip-path: inset(50% 0 0 0);
 }
 
 .astro-nome {
@@ -922,5 +937,27 @@
 @media (max-width: 480px) {
   .busca-dica {
     display: none;
+  }
+}
+
+/* ---------- Animações ao rolar (classes adicionadas pelo app.js) ---------- */
+.animar {
+  opacity: 0;
+  translate: 0 28px;
+  transition:
+    opacity 0.7s ease var(--atraso-animacao, 0ms),
+    translate 0.7s ease var(--atraso-animacao, 0ms),
+    transform var(--transicao); /* mantém o zoom suave das imagens no hover */
+}
+
+.animar.visivel {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media print {
+  .animar {
+    opacity: 1;
+    translate: none;
   }
 }

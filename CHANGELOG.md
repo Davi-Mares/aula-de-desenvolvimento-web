@@ -1,5 +1,41 @@
 # Changelog - Wiki do Universo
 
+## [v4.2.0] - Viagem da luz, linha do tempo, constelações, animações e PWA
+
+### ✨ Principais Mudanças
+
+#### 1. 💡 Viagem da luz (`viagem-da-luz.html`)
+- **Descrição**: simulação de um fóton saindo do Sol a 299.792 km/s. Mostra tempo de viagem, distância, quantas voltas na Terra a luz já daria e a próxima parada; marca a chegada em cada planeta com uma curiosidade. Duas trilhas: o Sistema Solar interno (até Marte) e o inteiro (até Netuno). A velocidade da simulação vai de tempo real (4 h até Netuno) a 1 hora por segundo.
+- **Arquivos**: `viagem-da-luz.html`, `js/viagem-da-luz.js`, `css/paginas.css`; distâncias (`distanciaUA`) adicionadas em `js/dados.js`
+
+#### 2. 🕰️ Linha do tempo (`linha-do-tempo.html`)
+- **Descrição**: 18 marcos da exploração espacial, de Galileu (1610) à Artemis I (2022), incluindo Marcos Pontes, o primeiro brasileiro no espaço. Etiquetas por tipo (voo tripulado, sondas, telescópios, descobertas) e links para as páginas relacionadas do site.
+- **Arquivos**: `linha-do-tempo.html`, `css/paginas.css`
+
+#### 3. ✨ Constelações (`constelacoes.html`)
+- **Descrição**: Cruzeiro do Sul, Órion, Escorpião, Leão, Ursa Maior e Cassiopeia desenhadas em SVG a partir das coordenadas reais das estrelas (ascensão reta e declinação), com o tamanho de cada estrela pelo brilho. As linhas se desenham quando o card aparece, as estrelas cintilam e o nome aparece ao passar o mouse, tocar ou usar o Tab. Inclui quando ver cada uma no Brasil e dicas de observação.
+- **Arquivos**: `constelacoes.html`, `js/constelacoes.js`, `css/paginas.css`
+
+#### 4. 🎬 Animações ao rolar
+- **Descrição**: cards, seções, parágrafos, imagens e marcos surgem com um leve deslize quando entram na tela (cards em cascata). Desligadas para quem prefere "reduzir movimento".
+- **Arquivos**: `js/app.js`, `css/componentes.css`
+
+#### 5. 📲 PWA (app instalável e offline)
+- **Descrição**: `manifest.webmanifest` com ícones (inclusive "maskable") e atalhos; `sw.js` guarda páginas, estilos, scripts e imagens para o site funcionar offline. Páginas, CSS e JS buscam primeiro na rede (sempre a versão mais nova); imagens e Bootstrap saem do cache. Botão "📲 Instalar o app" no rodapé quando o navegador permite.
+- **Importante**: ao publicar mudanças, aumentar `VERSAO` em `pwa/service-worker.js`; ao criar arquivos novos, incluí-los em `ARQUIVOS_ESSENCIAIS`.
+- **Organização**: manifesto e service worker ficam em `pwa/`. O `sw.js` da raiz tem uma linha só (`importScripts`) porque um service worker só controla a pasta onde está: se ficasse dentro de `pwa/`, o modo offline valeria apenas para essa pasta.
+- **Arquivos**: `pwa/manifest.webmanifest`, `pwa/service-worker.js`, `sw.js`, `img/icones/icone-*.png`, `js/app.js`, todas as páginas
+
+#### 6. 🪐 Saturno sem anéis na animação
+- **Descrição**: no Sistema Solar animado, Saturno agora usa uma foto do planeta sem anéis (`img/planetas/saturno-sem-aneis.webp`, recortada no planeta), e o anel fica só o desenhado em CSS por fora. A página de Saturno continua com a foto original, com anéis. Cada astro pode ter uma foto própria para a animação com `orbita.imagem` em `js/dados.js`.
+
+#### 7. 🗂️ Pastas organizadas
+- **Descrição**: `img/` foi dividida em `icones/`, `planetas/`, `universo/` e `site/`, e as fotos de cada astro passaram a começar pelo nome dele (ex.: `monte-olimpo.webp` → `planetas/marte-monte-olimpo.webp`, `planeta-jupiter.webp` → `planetas/jupiter.webp`). `audios/this-is-interstellar-on-4k.mp3` virou `audio/som-ambiente-interestelar.mp3`. As páginas `.html` continuam na raiz para os endereços do site não mudarem.
+
+#### 8. 🧭 Menu "Explorar"
+- **Descrição**: as três páginas novas ficam num submenu "Explorar" da navbar, numa nova seção de cards da página inicial e na busca.
+- **Arquivos**: `js/dados.js`, `js/app.js`, `css/layout.css`, `index.html`
+
 ## [v4.1.0] - Sistema Solar animado, foto do dia, busca e ficha técnica
 
 ### ✨ Principais Mudanças

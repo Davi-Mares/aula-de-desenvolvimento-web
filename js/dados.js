@@ -11,13 +11,17 @@
 // - ficha:     linhas da ficha técnica (dados de NASA Science — Facts)
 // - orbita:    posição no Sistema Solar animado da página inicial
 //              (diametro em % da área, periodo em segundos, tamanho do astro
-//              em % da largura, angulo inicial em graus) — fora de escala real
+//              em % da largura, angulo inicial em graus; "imagem" troca a
+//              foto só na animação, e "aneis" desenha o anel em CSS)
+//              — fora de escala real
 // - palavras:  termos extras que a busca do menu também encontra
+// - distanciaUA: distância média do Sol em unidades astronômicas
+//              (1 UA = 149,6 milhões de km), usada na viagem da luz
 const CORPOS_CELESTES = [
   {
     nome: "Sol",
     pagina: "sol.html",
-    imagem: "img/sol.webp",
+    imagem: "img/planetas/sol.webp",
     descricao: "A estrela no centro do nosso sistema",
     palavras: "estrela anã amarela fusão nuclear vento solar heliosfera",
     ficha: [
@@ -34,8 +38,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Mercúrio",
+    distanciaUA: 0.387,
     pagina: "mercurio.html",
-    imagem: "img/mercurio.webp",
+    imagem: "img/planetas/mercurio.webp",
     descricao: "O planeta mais próximo do Sol",
     palavras: "rochoso crateras menor planeta",
     ficha: [
@@ -52,8 +57,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Vênus",
+    distanciaUA: 0.723,
     pagina: "venus.html",
-    imagem: "img/venus.webp",
+    imagem: "img/planetas/venus.webp",
     descricao: "O planeta mais quente",
     palavras: "rochoso efeito estufa estrela da manhã estrela da tarde irmão da terra",
     ficha: [
@@ -70,8 +76,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Terra",
+    distanciaUA: 1,
     pagina: "terra.html",
-    imagem: "img/terra.webp",
+    imagem: "img/planetas/terra.webp",
     descricao: "Nosso planeta, nossa casa",
     palavras: "rochoso vida lua oceanos placas tectônicas",
     ficha: [
@@ -88,8 +95,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Marte",
+    distanciaUA: 1.524,
     pagina: "marte.html",
-    imagem: "img/marte.webp",
+    imagem: "img/planetas/marte.webp",
     descricao: "O planeta vermelho",
     palavras: "rochoso planeta vermelho monte olimpo fobos deimos valles marineris rover",
     ficha: [
@@ -106,8 +114,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Júpiter",
+    distanciaUA: 5.203,
     pagina: "jupiter.html",
-    imagem: "img/planeta-jupiter.webp",
+    imagem: "img/planetas/jupiter.webp",
     descricao: "O maior planeta do sistema",
     palavras: "gigante gasoso grande mancha vermelha ganimedes europa io",
     ficha: [
@@ -124,8 +133,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Saturno",
+    distanciaUA: 9.537,
     pagina: "saturno.html",
-    imagem: "img/saturno.webp",
+    imagem: "img/planetas/saturno.webp",
     descricao: "O planeta com anéis",
     palavras: "gigante gasoso anéis titã cassini huygens",
     ficha: [
@@ -138,12 +148,13 @@ const CORPOS_CELESTES = [
       ["Temperatura", "≈ −140 °C"],
       ["Gravidade", "10,4 m/s² (1,07× a da Terra)"]
     ],
-    orbita: { diametro: 75, periodo: 48, tamanho: 5, angulo: 20, aneis: true }
+    orbita: { diametro: 75, periodo: 48, tamanho: 5, angulo: 20, aneis: true, imagem: "img/planetas/saturno-sem-aneis.webp" }
   },
   {
     nome: "Urano",
+    distanciaUA: 19.19,
     pagina: "urano.html",
-    imagem: "img/urano.webp",
+    imagem: "img/planetas/urano.webp",
     descricao: "Planeta de gelo e gás",
     palavras: "gigante gelado eixo inclinado gira de lado james webb",
     ficha: [
@@ -160,8 +171,9 @@ const CORPOS_CELESTES = [
   },
   {
     nome: "Netuno",
+    distanciaUA: 30.07,
     pagina: "netuno.html",
-    imagem: "img/netuno.webp",
+    imagem: "img/planetas/netuno.webp",
     descricao: "O planeta mais distante",
     palavras: "gigante gelado ventos tritão voyager",
     ficha: [
@@ -178,13 +190,37 @@ const CORPOS_CELESTES = [
   }
 ];
 
-// Itens do menu principal. "paginas" lista quais arquivos deixam o item ativo.
+// Páginas interativas, agrupadas no item "Explorar" do menu.
+const PAGINAS_EXPLORAR = [
+  {
+    nome: "Viagem da luz",
+    pagina: "viagem-da-luz.html",
+    descricao: "Viaje com um raio de luz do Sol até Netuno",
+    palavras: "velocidade da luz fóton simulação distância minutos-luz anos-luz próxima centauri"
+  },
+  {
+    nome: "Linha do tempo",
+    pagina: "linha-do-tempo.html",
+    descricao: "Os grandes marcos da exploração espacial",
+    palavras: "história sputnik gagarin apollo lua voyager hubble james webb artemis estação espacial"
+  },
+  {
+    nome: "Constelações",
+    pagina: "constelacoes.html",
+    descricao: "Cruzeiro do Sul, Órion, Escorpião e mais",
+    palavras: "estrelas céu noturno cruzeiro do sul três marias órion escorpião ursa maior cassiopeia leão bandeira"
+  }
+];
+
+// Itens do menu principal. "paginas" lista quais arquivos deixam o item
+// ativo; "submenu" vira uma lista suspensa.
 const NAVEGACAO_PRINCIPAL = [
   { href: "index.html", rotulo: "Início", paginas: ["index.html"] },
   { href: "universo.html", rotulo: "Universo", paginas: ["universo.html"] },
   { href: "sol.html", rotulo: "Planetas", paginas: CORPOS_CELESTES.map((corpo) => corpo.pagina) },
   { href: "via-lactea.html", rotulo: "Via Láctea", paginas: ["via-lactea.html"] },
   { href: "curiosidades.html", rotulo: "Curiosidades", paginas: ["curiosidades.html"] },
+  { rotulo: "Explorar", submenu: PAGINAS_EXPLORAR, paginas: PAGINAS_EXPLORAR.map((item) => item.pagina) },
   { href: "sobre.html", rotulo: "Sobre", paginas: ["sobre.html"] },
   { href: "pagina-de-contato.html", rotulo: "Contato", paginas: ["pagina-de-contato.html"] }
 ];
@@ -231,6 +267,7 @@ const PAGINAS_OUTRAS = [
 const GRUPOS_DE_CARDS = {
   "sistema-solar": CORPOS_CELESTES,
   universo: PAGINAS_UNIVERSO,
+  explorar: PAGINAS_EXPLORAR,
   outros: PAGINAS_OUTRAS
 };
 
@@ -238,6 +275,7 @@ const GRUPOS_DE_CARDS = {
 const ITENS_DA_BUSCA = [
   ...CORPOS_CELESTES,
   ...PAGINAS_UNIVERSO,
+  ...PAGINAS_EXPLORAR,
   ...PAGINAS_OUTRAS,
   {
     nome: "Foto do dia da NASA",
