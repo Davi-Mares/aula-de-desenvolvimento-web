@@ -1,70 +1,32 @@
 // ---------------------------------------------------------------------------
-// Wiki do Universo — script único, compartilhado por todas as páginas.
-// Monta a navbar e o rodapé (assim toda página tem o mesmo menu), gera os
-// cards do Sistema Solar, cuida da navegação sequencial entre planetas,
-// do botão de voltar ao topo e do player de som ambiente.
+// Wiki do Universo — comportamento compartilhado por todas as páginas.
+// Monta navbar e rodapé, gera os cards da página inicial, a navegação entre
+// planetas, o botão de voltar ao topo, o som ambiente e a validação do
+// formulário. Os dados usados aqui ficam em dados.js.
 // ---------------------------------------------------------------------------
 
-const corposCelestes = [
-  { nome: "Sol", pagina: "sol.html", imagem: "img/sol.webp", descricao: "A estrela no centro do nosso sistema" },
-  { nome: "Mercúrio", pagina: "mercurio.html", imagem: "img/mercurio.jpg", descricao: "O planeta mais próximo do Sol" },
-  { nome: "Vênus", pagina: "venus.html", imagem: "img/venus.webp", descricao: "O planeta mais quente" },
-  { nome: "Terra", pagina: "terra.html", imagem: "img/terra.jpg", descricao: "Nosso planeta, nossa casa" },
-  { nome: "Marte", pagina: "marte.html", imagem: "img/marte.jpg", descricao: "O planeta vermelho" },
-  { nome: "Júpiter", pagina: "jupiter.html", imagem: "img/planeta-jupiter.webp", descricao: "O maior planeta do sistema" },
-  { nome: "Saturno", pagina: "saturno.html", imagem: "img/saturno.webp", descricao: "O planeta com anéis" },
-  { nome: "Urano", pagina: "urano.html", imagem: "img/urano.webp", descricao: "Planeta de gelo e gás" },
-  { nome: "Netuno", pagina: "netuno.html", imagem: "img/netuno.jpg", descricao: "O planeta mais distante" }
-];
-
-const citacoes = [
-  "“O cosmos está dentro de nós. Somos feitos de poeira de estrelas.” — Carl Sagan",
-  "“Em algum lugar, algo incrível está esperando para ser descoberto.” — Carl Sagan",
-  "“Olhar para as estrelas é sempre olhar para o passado.” — Autor desconhecido",
-  "“A imaginação é mais importante que o conhecimento.” — Albert Einstein",
-  "“O universo não é apenas mais estranho do que imaginamos, é mais estranho do que podemos imaginar.” — J.B.S. Haldane"
-];
+const PAGINA_ATUAL = window.location.pathname.split("/").pop() || "index.html";
 
 // ---------------------------------------------------------------------------
-// Navbar e rodapé — os mesmos em todas as páginas, montados a partir daqui
-// para não precisar manter o HTML da navegação copiado em 15 arquivos.
+// Navbar e rodapé — montados aqui para não repetir o mesmo HTML em 15 páginas.
 // ---------------------------------------------------------------------------
-
-const NAVEGACAO_PRINCIPAL = [
-  { href: "index.html", rotulo: "Início", paginas: ["index.html", ""] },
-  { href: "universo.html", rotulo: "Universo", paginas: ["universo.html"] },
-  {
-    href: "sol.html",
-    rotulo: "Planetas",
-    paginas: corposCelestes.map((corpo) => corpo.pagina)
-  },
-  { href: "via-lactea.html", rotulo: "Via Láctea", paginas: ["via-lactea.html"] },
-  { href: "curiosidades.html", rotulo: "Curiosidades", paginas: ["curiosidades.html"] },
-  { href: "sobre.html", rotulo: "Sobre", paginas: ["sobre.html"] },
-  { href: "pagina-de-contato.html", rotulo: "Contato", paginas: ["pagina-de-contato.html"] }
-];
-
-function obterPaginaAtual() {
-  const partes = window.location.pathname.split("/");
-  return partes[partes.length - 1] || "index.html";
-}
 
 function montarNavbar() {
   const alvo = document.getElementById("app-navbar");
   if (!alvo) return;
 
-  const paginaAtual = obterPaginaAtual();
-
   const itens = NAVEGACAO_PRINCIPAL.map((item) => {
-    const ativo = item.paginas.includes(paginaAtual);
-    const classeAtiva = ativo ? " active" : "";
-    const atributoAtual = ativo ? ' aria-current="page"' : "";
-    return `<li class="nav-item"><a class="nav-link${classeAtiva}" href="${item.href}"${atributoAtual}>${item.rotulo}</a></li>`;
+    const ativo = item.paginas.includes(PAGINA_ATUAL);
+    return `
+      <li class="nav-item">
+        <a class="nav-link${ativo ? " active" : ""}" href="${item.href}"${ativo ? ' aria-current="page"' : ""}>${item.rotulo}</a>
+      </li>`;
   }).join("");
 
   alvo.outerHTML = `
-    <header class="site-header bg-dark text-white py-3 sticky-top" role="banner">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navegação principal">
+    <a href="#conteudo" class="skip-link">Pular para o conteúdo principal</a>
+    <header class="site-header sticky-top">
+      <nav class="navbar navbar-expand-lg" aria-label="Navegação principal">
         <div class="container-fluid">
           <a class="navbar-brand logo-rgb" href="index.html">🌌 Wiki do Universo</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
@@ -85,93 +47,92 @@ function montarRodape() {
   if (!alvo) return;
 
   alvo.outerHTML = `
-    <footer class="bg-dark text-white text-center py-4 mt-5" role="contentinfo">
-      <p class="mb-0">Projeto de Desenvolvimento Web — UNEMAT</p>
+    <footer class="site-footer">
+      <p>Projeto de Desenvolvimento Web — UNEMAT</p>
     </footer>
   `;
 }
 
 // ---------------------------------------------------------------------------
-// Cards do Sistema Solar (usados na página inicial)
+// Cards da página inicial — cada elemento [data-cards="grupo"] recebe os
+// cards do grupo correspondente em GRUPOS_DE_CARDS.
 // ---------------------------------------------------------------------------
 
-function criarCardPlaneta(corpo) {
+function criarCard(item) {
+  const foto = item.imagem
+    ? `<div class="planeta-foto-wrap"><img src="${item.imagem}" alt="" loading="lazy" class="planeta-foto"></div>`
+    : "";
+
   return `
     <div class="col-12 col-sm-6 col-lg-4">
-      <a href="${corpo.pagina}" class="card text-decoration-none h-100 border-0 shadow-sm">
-        <div class="card-body text-center">
-          <div class="planeta-foto-wrap">
-            <img src="${corpo.imagem}" alt="${corpo.nome}" loading="lazy" class="planeta-foto">
-          </div>
-          <h5 class="card-title">${corpo.nome}</h5>
-          <p class="card-text small mt-1 mb-0" style="opacity: 0.8;">${corpo.descricao}</p>
+      <a href="${item.pagina}" class="card h-100">
+        <div class="card-body">
+          ${foto}
+          <h3 class="card-title">${item.nome}</h3>
+          <p class="card-text">${item.descricao}</p>
         </div>
       </a>
     </div>
   `;
 }
 
-function gerarCardsDoSistemaSolar() {
-  const container = document.querySelector("#sistema-solar .row");
-  if (!container) return;
-
-  container.innerHTML = corposCelestes.map(criarCardPlaneta).join("");
-}
-
-function adicionarEfeitoBrilho() {
-  document.querySelectorAll(".card").forEach((card) => {
-    card.addEventListener("mouseenter", () => card.classList.add("brilho"));
-    card.addEventListener("mouseleave", () => card.classList.remove("brilho"));
+function gerarCards() {
+  document.querySelectorAll("[data-cards]").forEach((container) => {
+    const itens = GRUPOS_DE_CARDS[container.dataset.cards] || [];
+    container.innerHTML = itens.map(criarCard).join("");
   });
 }
 
 // ---------------------------------------------------------------------------
-// Citação aleatória (widget da página inicial)
+// Citação do dia — mostra uma citação aleatória e troca ao clicar no botão,
+// sem repetir a que já está na tela.
 // ---------------------------------------------------------------------------
 
-function mostrarCitacaoAleatoria() {
-  const elemento = document.getElementById("citacao");
-  if (!elemento) return;
+function iniciarCitacoes() {
+  const texto = document.getElementById("citacao");
+  const botao = document.getElementById("botao-citacao");
+  if (!texto) return;
 
-  const indice = Math.floor(Math.random() * citacoes.length);
-  elemento.textContent = citacoes[indice];
-}
+  let indiceAtual = -1;
 
-function trocarCitacao() {
-  mostrarCitacaoAleatoria();
+  function trocarCitacao() {
+    let novoIndice;
+    do {
+      novoIndice = Math.floor(Math.random() * CITACOES.length);
+    } while (novoIndice === indiceAtual && CITACOES.length > 1);
+
+    indiceAtual = novoIndice;
+    texto.textContent = CITACOES[indiceAtual];
+  }
+
+  trocarCitacao();
+  botao?.addEventListener("click", trocarCitacao);
 }
 
 // ---------------------------------------------------------------------------
-// Navegação sequencial entre planetas (anterior/próximo), inserida logo
-// depois do <header class="page-header"> de cada página de planeta.
+// Navegação entre planetas (sequência + anterior/próximo), inserida logo
+// depois do cabeçalho de cada página de planeta.
 // ---------------------------------------------------------------------------
 
 function criarNavegacaoPlanetaria() {
   const cabecalho = document.querySelector(".page-header");
-  if (!cabecalho) return;
+  const indiceAtual = CORPOS_CELESTES.findIndex((corpo) => corpo.pagina === PAGINA_ATUAL);
+  if (!cabecalho || indiceAtual === -1) return;
 
-  const paginaAtual = obterPaginaAtual();
-  const indiceAtual = corposCelestes.findIndex((corpo) => corpo.pagina === paginaAtual);
-  if (indiceAtual === -1) return;
+  const anterior = CORPOS_CELESTES[indiceAtual - 1];
+  const proximo = CORPOS_CELESTES[indiceAtual + 1];
 
-  const anterior = corposCelestes[indiceAtual - 1];
-  const proximo = corposCelestes[indiceAtual + 1];
-
-  const itensLista = corposCelestes
-    .map((corpo, indice) => {
-      const classeAtual = indice === indiceAtual ? " atual" : "";
-      return `<li class="${classeAtual.trim()}"><a href="${corpo.pagina}">${corpo.nome}</a></li>`;
-    })
-    .join("");
+  const itens = CORPOS_CELESTES.map((corpo, indice) => {
+    const atual = indice === indiceAtual;
+    return `<li${atual ? ' class="atual"' : ""}><a href="${corpo.pagina}"${atual ? ' aria-current="page"' : ""}>${corpo.nome}</a></li>`;
+  }).join("");
 
   const navegacao = document.createElement("nav");
   navegacao.className = "navegacao-planetaria";
   navegacao.setAttribute("aria-label", "Navegação entre planetas");
   navegacao.innerHTML = `
     <span class="sequencia-titulo">Sequência a partir do Sol</span>
-    <div class="sequencia-planetas">
-      <ol>${itensLista}</ol>
-    </div>
+    <ol class="sequencia-planetas">${itens}</ol>
     <div class="controles-planetas">
       ${anterior ? `<a href="${anterior.pagina}">⬅️ ${anterior.nome}</a>` : "<span></span>"}
       ${proximo ? `<a href="${proximo.pagina}">${proximo.nome} ➡️</a>` : "<span></span>"}
@@ -182,103 +143,118 @@ function criarNavegacaoPlanetaria() {
 }
 
 // ---------------------------------------------------------------------------
-// Botão de voltar ao topo
+// Botão de voltar ao topo — aparece depois de rolar 400px.
 // ---------------------------------------------------------------------------
 
 function criarBotaoTopo() {
-  if (document.getElementById("btn-topo")) return;
-
   const botao = document.createElement("button");
-  botao.id = "btn-topo";
   botao.type = "button";
-  botao.className = "btn-topo";
+  botao.className = "botao-flutuante btn-topo";
   botao.setAttribute("aria-label", "Voltar ao topo da página");
   botao.textContent = "⬆️";
-  botao.style.display = "none";
-  botao.addEventListener("click", scrollAoTopo);
-
+  botao.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   document.body.appendChild(botao);
 
-  window.addEventListener("scroll", () => mostrarBotaoTopo(botao));
-}
-
-function mostrarBotaoTopo(botao) {
-  botao.style.display = window.scrollY > 400 ? "flex" : "none";
-}
-
-function scrollAoTopo() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const atualizar = () => botao.classList.toggle("visivel", window.scrollY > 400);
+  window.addEventListener("scroll", atualizar, { passive: true });
+  atualizar();
 }
 
 // ---------------------------------------------------------------------------
-// Player de som ambiente — persiste a preferência entre páginas via
-// localStorage. Navegadores podem bloquear a retomada automática do áudio
-// sem uma interação recente do usuário; nesse caso o botão volta ao estado
-// pausado e basta um clique para retomar.
+// Som ambiente — a preferência é lembrada entre páginas via localStorage.
+// Navegadores podem bloquear a retomada automática do áudio sem interação
+// recente; nesse caso o botão volta ao estado pausado e basta um clique.
 // ---------------------------------------------------------------------------
 
 const CHAVE_SOM_AMBIENTE = "wikiUniverso:somAtivo";
 
-function criarPlayerAmbiente() {
-  if (document.getElementById("player-ambiente")) return;
+function lerPreferenciaSom() {
+  try {
+    return localStorage.getItem(CHAVE_SOM_AMBIENTE) === "1";
+  } catch {
+    return false;
+  }
+}
 
-  const audio = document.createElement("audio");
-  audio.id = "audio-ambiente";
-  audio.src = "audios/this-is-interstellar-on-4k.mp3";
+function salvarPreferenciaSom(ativo) {
+  try {
+    localStorage.setItem(CHAVE_SOM_AMBIENTE, ativo ? "1" : "0");
+  } catch {
+    // Sem armazenamento disponível (ex.: modo privado): só não lembra.
+  }
+}
+
+function criarPlayerAmbiente() {
+  const audio = new Audio("audios/this-is-interstellar-on-4k.mp3");
   audio.loop = true;
   audio.preload = "none";
   audio.volume = 0.35;
-  document.body.appendChild(audio);
 
   const botao = document.createElement("button");
-  botao.id = "player-ambiente";
   botao.type = "button";
-  botao.className = "player-ambiente";
+  botao.className = "botao-flutuante player-ambiente";
   botao.setAttribute("aria-pressed", "false");
   botao.innerHTML = '<span class="icone" aria-hidden="true">🔈</span><span class="rotulo">Som ambiente</span>';
   document.body.appendChild(botao);
 
+  const icone = botao.querySelector(".icone");
+  const rotulo = botao.querySelector(".rotulo");
+
   function atualizarBotao(tocando) {
     botao.setAttribute("aria-pressed", String(tocando));
-    botao.querySelector(".icone").textContent = tocando ? "🔊" : "🔈";
-    botao.querySelector(".rotulo").textContent = tocando ? "Pausar som" : "Som ambiente";
+    icone.textContent = tocando ? "🔊" : "🔈";
+    rotulo.textContent = tocando ? "Pausar som" : "Som ambiente";
+  }
+
+  function tocar() {
+    audio.play()
+      .then(() => {
+        salvarPreferenciaSom(true);
+        atualizarBotao(true);
+      })
+      .catch(() => atualizarBotao(false));
   }
 
   botao.addEventListener("click", () => {
     if (audio.paused) {
-      audio
-        .play()
-        .then(() => {
-          localStorage.setItem(CHAVE_SOM_AMBIENTE, "1");
-          atualizarBotao(true);
-        })
-        .catch(() => atualizarBotao(false));
+      tocar();
     } else {
       audio.pause();
-      localStorage.setItem(CHAVE_SOM_AMBIENTE, "0");
+      salvarPreferenciaSom(false);
       atualizarBotao(false);
     }
   });
 
-  if (localStorage.getItem(CHAVE_SOM_AMBIENTE) === "1") {
-    audio
-      .play()
-      .then(() => atualizarBotao(true))
-      .catch(() => atualizarBotao(false));
-  }
+  if (lerPreferenciaSom()) tocar();
+}
+
+// ---------------------------------------------------------------------------
+// Validação de formulários (padrão do Bootstrap: .needs-validation).
+// ---------------------------------------------------------------------------
+
+function iniciarValidacaoFormularios() {
+  document.querySelectorAll("form.needs-validation").forEach((formulario) => {
+    formulario.addEventListener("submit", (evento) => {
+      if (!formulario.checkValidity()) {
+        evento.preventDefault();
+        evento.stopPropagation();
+      }
+      formulario.classList.add("was-validated");
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------
 // Inicialização
 // ---------------------------------------------------------------------------
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   montarNavbar();
   montarRodape();
-  mostrarCitacaoAleatoria();
-  gerarCardsDoSistemaSolar();
-  adicionarEfeitoBrilho();
+  gerarCards();
+  iniciarCitacoes();
   criarNavegacaoPlanetaria();
   criarBotaoTopo();
   criarPlayerAmbiente();
+  iniciarValidacaoFormularios();
 });

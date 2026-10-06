@@ -18,7 +18,8 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 - Páginas individuais para o Sol e os oito planetas.
 - Conteúdos sobre o Universo e a Via Láctea.
 - Página de curiosidades, informações sobre o projeto e formulário de contato.
-- Menu responsivo e botão para voltar ao topo.
+- Menu responsivo, botão para voltar ao topo e som ambiente.
+- Fundo com estrelas piscando e estrelas cadentes (respeita a preferência de menos movimento do sistema).
 
 ## Tecnologias
 
@@ -42,10 +43,13 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 ├── universo.html e via-lactea.html
 ├── curiosidades.html, sobre.html e pagina-de-contato.html
 ├── css/
-│   ├── sistema-solar.css
-│   └── menu.css
+│   ├── base.css          # variáveis de cor, reset, tipografia e fundo
+│   ├── layout.css        # navbar, cabeçalho das páginas, conteúdo e rodapé
+│   └── componentes.css   # cards, citação, navegação entre planetas, botões...
 ├── js/
-│   └── app.js
+│   ├── dados.js          # planetas, menu, cards e citações
+│   ├── estrelas.js       # céu estrelado animado no fundo
+│   └── app.js            # monta navbar/rodapé e liga os comportamentos
 ├── img/
 └── audios/
 ```
