@@ -15,9 +15,13 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 ## Conteúdo
 
 - Página inicial com acesso ao Sistema Solar, Universo, Via Láctea e curiosidades.
+- Sistema Solar animado: os planetas giram em volta do Sol e levam à página de cada um.
+- Foto do dia da NASA (API do APOD).
+- Ficha técnica (diâmetro, distância, luas, temperatura, gravidade…) em cada página de astro.
+- Busca no menu (atalhos `/` e `Ctrl+K`).
 - Páginas individuais para o Sol e os oito planetas.
 - Conteúdos sobre o Universo e a Via Láctea.
-- Página de curiosidades, informações sobre o projeto e formulário de contato.
+- Página de curiosidades, informações sobre o projeto e formulário de contato que envia e-mail (FormSubmit).
 - Menu responsivo, botão para voltar ao topo e som ambiente.
 - Fundo com estrelas piscando e estrelas cadentes (respeita a preferência de menos movimento do sistema).
 
@@ -53,6 +57,10 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 ├── img/
 └── audios/
 ```
+
+## Créditos das imagens
+
+Fotos do Sol, dos planetas e das galáxias: NASA. A imagem de Gargantua é do filme *Interestelar* (2014).
 
 ## Como executar
 

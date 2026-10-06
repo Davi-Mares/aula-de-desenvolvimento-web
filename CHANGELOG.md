@@ -1,5 +1,54 @@
 # Changelog - Wiki do Universo
 
+## [v4.1.0] - Sistema Solar animado, foto do dia, busca e ficha técnica
+
+### ✨ Principais Mudanças
+
+#### 1. 🪐 Sistema Solar animado
+- **Descrição**: nova seção na página inicial com o Sol e os oito planetas girando em suas órbitas (CSS puro, montado a partir de `CORPOS_CELESTES`). Passar o mouse num planeta pausa a animação e mostra o nome; clicar abre a página dele. Saturno ganhou anel desenhado em CSS. Com "reduzir movimento" ativado, os planetas ficam parados em ângulos diferentes.
+- **Arquivos alterados**: `index.html`, `js/app.js`, `js/dados.js`, `css/componentes.css`
+
+#### 2. 📋 Ficha técnica em cada astro
+- **Descrição**: as páginas do Sol e dos planetas mostram um quadro com tipo, diâmetro, distância, rotação, ano, luas, temperatura e gravidade, com dados da NASA Science (Facts). Os dados ficam em `js/dados.js`. O texto de Netuno foi atualizado de 14 para 16 luas conhecidas.
+- **Arquivos alterados**: `js/dados.js`, `js/app.js`, `css/componentes.css`, `netuno.html`
+
+#### 3. 📸 Foto do dia da NASA (APOD)
+- **Descrição**: a página inicial busca a *Astronomy Picture of the Day* na API da NASA e mostra imagem (ou vídeo), título, data, créditos e explicação. A resposta fica guardada no navegador até o dia seguinte. Se a API falhar ou devolver um registro sem foto, o site tenta de novo, depois usa a última foto guardada e, em último caso, mostra um link para o site do APOD.
+- **Observação**: usa a `DEMO_KEY`, que tem limite de pedidos por hora. Uma chave gratuita pode ser criada em https://api.nasa.gov e colocada em `NASA_API_KEY` (`js/app.js`).
+- **Arquivos alterados**: `index.html`, `js/app.js`, `css/componentes.css`
+
+#### 4. 🔍 Busca no menu
+- **Descrição**: botão de lupa na navbar (atalhos `/` e `Ctrl+K`) abre uma caixa de busca que procura em planetas e páginas pelo nome, pela descrição e por palavras-chave, ignorando acentos. Setas escolhem, `Enter` abre, `Esc` fecha.
+- **Arquivos alterados**: `js/app.js`, `js/dados.js`, `css/componentes.css`
+
+#### 5. ✉️ Formulário de contato envia e-mail
+- **Descrição**: o formulário passou a enviar as mensagens por e-mail usando o FormSubmit (sem servidor próprio), com assunto automático, proteção simples contra spam e aviso de "mensagem enviada" ao voltar para a página. No primeiro envio, o FormSubmit manda um e-mail de ativação que precisa ser confirmado.
+- **Arquivos alterados**: `pagina-de-contato.html`, `js/app.js`
+
+#### 6. 🖼️ Imagens em WebP e créditos da NASA
+- **Descrição**: todas as imagens foram convertidas para `.webp` e redimensionadas (de 6,2 MB para cerca de 2 MB no total); o GIF da faixa brilhante virou WebP animado. Nomes confusos foram trocados (`interstellar-black-hole-...jpg` → `buraco-negro-gargantua.webp`, `imagem_da_Terra_menu.jpeg` → `terra-vista-do-espaco.webp`) e a imagem não usada `estrelas.webp` foi removida. Os créditos na página de contato agora apontam para a NASA (e para o filme *Interestelar*, no caso de Gargantua).
+- **Arquivos alterados**: `img/`, todas as páginas, `css/`, `js/dados.js`
+
+#### 7. 🔗 Favicon e prévia de link
+- **Descrição**: novo ícone (`img/favicon.svg` e `img/apple-touch-icon.png`) e tags Open Graph/Twitter em todas as páginas, com a imagem `img/preview.jpg` (1200×630) para a prévia ao compartilhar no WhatsApp, Instagram, Discord etc. Os títulos das abas foram padronizados como "Página | Wiki do Universo".
+- **Arquivos alterados**: todas as páginas, `img/`
+
+#### 8. 🐛 Correção: céu estrelado invisível
+- **Descrição**: o fundo do `<body>` estava sendo pintado por cima do canvas das estrelas. O fundo foi movido para o `<html>` e o `<body>` ficou transparente.
+- **Arquivos alterados**: `css/base.css`
+
+## [v4.0.0] - Céu estrelado e reorganização do código
+
+### ✨ Principais Mudanças
+
+#### 1. ✨ Céu estrelado animado
+- **Descrição**: fundo com estrelas piscando em ritmos e cores diferentes e uma estrela cadente de vez em quando, desenhado num `<canvas>` atrás do conteúdo (`js/estrelas.js`). Respeita a preferência de "reduzir movimento" do sistema.
+
+#### 2. 🧹 Código reorganizado
+- **CSS**: `sistema-solar.css` e `menu.css` foram substituídos por `base.css` (variáveis, reset, tipografia, fundo), `layout.css` (navbar, cabeçalhos, conteúdo, rodapé) e `componentes.css` (cards, citação, navegação, botões). Regras duplicadas e os `!important` foram removidos; o Bootstrap é ajustado pelas próprias variáveis e pelo tema escuro (`data-bs-theme="dark"`).
+- **JavaScript**: dados (planetas, menu, cards, citações) separados em `js/dados.js`; o script do formulário saiu do HTML e foi para `js/app.js`.
+- **HTML**: todas as páginas seguem a mesma estrutura, com `<main id="conteudo">` e link "Pular para o conteúdo"; textos alternativos das imagens corrigidos; `menu.html` (não usado) removido.
+
 ## [v3.1.0] - Fontes confiáveis e ajuste de menu
 
 ### ✨ Principais Mudanças

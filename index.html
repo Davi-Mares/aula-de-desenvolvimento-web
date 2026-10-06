@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wiki do Universo</title>
   <meta name="description" content="Wiki do Universo — planetas, Via Láctea, curiosidades e mais sobre astronomia.">
+  <meta name="theme-color" content="#040713">
+
+  <!-- Ícone da aba -->
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <!-- Prévia ao compartilhar o link (WhatsApp, Instagram, Discord...) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Wiki do Universo">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Wiki do Universo">
+  <meta property="og:description" content="Wiki do Universo — planetas, Via Láctea, curiosidades e mais sobre astronomia.">
+  <meta property="og:url" content="https://davi-mares.github.io/aula-de-desenvolvimento-web/">
+  <meta property="og:image" content="https://davi-mares.github.io/aula-de-desenvolvimento-web/img/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/base.css">
@@ -29,7 +46,7 @@
       <div class="row g-4 align-items-center">
         <div class="col-lg-6 order-lg-2">
           <figure class="imagem-intro">
-            <img src="img/imagem_da_Terra_menu.jpeg" alt="Imagem da Terra vista do espaço">
+            <img src="img/terra-vista-do-espaco.webp" alt="Imagem da Terra vista do espaço">
             <figcaption>🌍 Planeta Terra - Nossa Casa</figcaption>
           </figure>
         </div>
@@ -53,6 +70,22 @@
             <a href="https://pt.wikipedia.org/wiki/Astronomia" target="_blank" rel="noopener noreferrer" class="link-destacado">Wikipédia sobre astronomia</a>.
           </p>
         </div>
+      </div>
+    </section>
+
+    <!-- Sistema Solar animado (montado pelo app.js a partir de CORPOS_CELESTES) -->
+    <section class="secao-sistema" id="sistema-animado" aria-labelledby="titulo-sistema">
+      <h2 id="titulo-sistema">☀️ O Sistema Solar em movimento</h2>
+      <p class="nota-secao">Passe o mouse num planeta para ver o nome e clique (ou toque) para abrir a página dele. Distâncias, tamanhos e velocidades estão fora de escala.</p>
+      <div class="sistema-animado" data-sistema-animado></div>
+    </section>
+
+    <!-- Foto do dia da NASA (carregada pelo app.js pela API do APOD) -->
+    <section class="secao-apod" id="foto-do-dia" aria-labelledby="titulo-apod">
+      <h2 id="titulo-apod">📸 Foto do dia da NASA</h2>
+      <p class="nota-secao">Todo dia a NASA escolhe uma imagem do universo, explicada por um astrônomo (<abbr title="Astronomy Picture of the Day">APOD</abbr>).</p>
+      <div class="apod" data-foto-do-dia aria-live="polite" aria-busy="true">
+        <p class="apod-carregando">Carregando a foto de hoje… 🔭</p>
       </div>
     </section>
 

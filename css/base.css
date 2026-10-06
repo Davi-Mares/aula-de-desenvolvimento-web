@@ -52,8 +52,18 @@
   box-sizing: border-box;
 }
 
+/* O fundo fica no <html> e o <body> é transparente: assim o canvas das
+   estrelas (z-index: -1) aparece entre o fundo e o conteúdo. Se o <body>
+   tivesse fundo próprio, ele cobriria as estrelas. */
 html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(73, 214, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 80% 15%, rgba(138, 93, 255, 0.12), transparent 25%),
+    radial-gradient(circle at 10% 80%, rgba(99, 230, 212, 0.06), transparent 30%),
+    linear-gradient(180deg, var(--cor-fundo) 0%, var(--cor-fundo-2) 45%, var(--cor-fundo-3) 100%);
   background-color: var(--cor-fundo-3);
+  background-attachment: fixed;
   scroll-behavior: smooth;
 }
 
@@ -62,13 +72,7 @@ body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--cor-texto);
-  /* Nebulosas suaves; as estrelas piscando são desenhadas por js/estrelas.js */
-  background:
-    radial-gradient(circle at 50% 0%, rgba(73, 214, 255, 0.10), transparent 30%),
-    radial-gradient(circle at 80% 15%, rgba(138, 93, 255, 0.12), transparent 25%),
-    radial-gradient(circle at 10% 80%, rgba(99, 230, 212, 0.06), transparent 30%),
-    linear-gradient(180deg, var(--cor-fundo) 0%, var(--cor-fundo-2) 45%, var(--cor-fundo-3) 100%);
-  background-attachment: fixed;
+  background: transparent;
 }
 
 img {

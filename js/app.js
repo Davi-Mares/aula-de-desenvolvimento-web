@@ -1,8 +1,9 @@
 // ---------------------------------------------------------------------------
 // Wiki do Universo — comportamento compartilhado por todas as páginas.
-// Monta navbar e rodapé, gera os cards da página inicial, a navegação entre
-// planetas, o botão de voltar ao topo, o som ambiente e a validação do
-// formulário. Os dados usados aqui ficam em dados.js.
+// Monta navbar e rodapé, os cards e o Sistema Solar animado da página
+// inicial, a foto do dia da NASA, a navegação e a ficha técnica dos planetas,
+// a busca, o botão de voltar ao topo, o som ambiente e o formulário.
+// Os dados usados aqui ficam em dados.js.
 // ---------------------------------------------------------------------------
 
 const PAGINA_ATUAL = window.location.pathname.split("/").pop() || "index.html";
@@ -34,7 +35,14 @@ function montarNavbar() {
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="menu-principal">
-            <ul class="navbar-nav ms-auto">${itens}</ul>
+            <ul class="navbar-nav ms-auto">
+              ${itens}
+              <li class="nav-item">
+                <button type="button" class="nav-link botao-busca" data-abrir-busca aria-label="Buscar no site (atalho: /)">
+                  <span aria-hidden="true">🔍</span><span class="botao-busca-rotulo">Buscar</span>
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
@@ -229,7 +237,8 @@ function criarPlayerAmbiente() {
 }
 
 // ---------------------------------------------------------------------------
-// Validação de formulários (padrão do Bootstrap: .needs-validation).
+// Formulário de contato — validação no padrão do Bootstrap
+// (.needs-validation) e envio por e-mail pelo FormSubmit.
 // ---------------------------------------------------------------------------
 
 function iniciarValidacaoFormularios() {
@@ -244,6 +253,358 @@ function iniciarValidacaoFormularios() {
   });
 }
 
+// Depois do envio, o FormSubmit volta para esta página com ?enviado=1.
+function iniciarFormularioContato() {
+  const formulario = document.getElementById("formulario-contato");
+  if (!formulario) return;
+
+  const destino = new URL(window.location.href);
+  destino.search = "?enviado=1";
+  destino.hash = "contato";
+  formulario.querySelector('[name="_next"]').value = destino.href;
+
+  if (new URLSearchParams(window.location.search).get("enviado") === "1") {
+    document.getElementById("aviso-enviado").hidden = false;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Utilitários
+// ---------------------------------------------------------------------------
+
+// Escapa texto vindo de fora (ex.: API da NASA) antes de pôr no HTML.
+function escaparHtml(texto) {
+  const div = document.createElement("div");
+  div.textContent = texto ?? "";
+  return div.innerHTML;
+}
+
+// "Saturno" e "saturno" e "satúrno" viram a mesma coisa para a busca.
+function normalizar(texto) {
+  return texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+// ---------------------------------------------------------------------------
+// Ficha técnica — inserida logo depois da primeira imagem de cada página
+// de astro, com os dados de CORPOS_CELESTES (dados.js).
+// ---------------------------------------------------------------------------
+
+function criarFichaTecnica() {
+  const corpo = CORPOS_CELESTES.find((item) => item.pagina === PAGINA_ATUAL);
+  const artigo = document.querySelector(".artigo");
+  if (!corpo?.ficha || !artigo) return;
+
+  const linhas = corpo.ficha
+    .map(([rotulo, valor]) => `<div class="ficha-item"><dt>${rotulo}</dt><dd>${valor}</dd></div>`)
+    .join("");
+
+  const ficha = document.createElement("section");
+  ficha.className = "ficha-tecnica";
+  ficha.setAttribute("aria-labelledby", "titulo-ficha");
+  ficha.innerHTML = `
+    <h2 id="titulo-ficha">📋 Ficha técnica — ${corpo.nome}</h2>
+    <dl class="ficha-grade">${linhas}</dl>
+  `;
+
+  const referencia = artigo.querySelector(".planet-img") || artigo.firstElementChild;
+  referencia.insertAdjacentElement("afterend", ficha);
+}
+
+// ---------------------------------------------------------------------------
+// Sistema Solar animado (página inicial) — cada planeta gira na sua órbita;
+// passar o mouse ou focar um planeta pausa tudo e mostra o nome.
+// ---------------------------------------------------------------------------
+
+function criarSistemaAnimado() {
+  const area = document.querySelector("[data-sistema-animado]");
+  if (!area) return;
+
+  const criarAstro = (corpo, classe = "") => `
+    <a class="astro ${classe}" href="${corpo.pagina}" style="--tamanho: ${corpo.orbita.tamanho}">
+      <img src="${corpo.imagem}" alt="" loading="lazy">
+      <span class="astro-nome">${corpo.nome}</span>
+    </a>`;
+
+  const [sol, ...planetas] = CORPOS_CELESTES;
+
+  const orbitas = planetas.map((planeta) => {
+    const { diametro, periodo, angulo, aneis } = planeta.orbita;
+    // Atraso negativo = a animação já começa "no meio", em ângulos diferentes.
+    const atraso = -(angulo / 360) * periodo;
+    return `
+      <div class="orbita" style="--diametro: ${diametro}%; --periodo: ${periodo}s; --atraso: ${atraso.toFixed(2)}s; --angulo: ${angulo}deg">
+        ${criarAstro(planeta, aneis ? "com-aneis" : "")}
+      </div>`;
+  }).join("");
+
+  area.innerHTML = criarAstro(sol, "astro-sol") + orbitas;
+}
+
+// ---------------------------------------------------------------------------
+// Foto do dia da NASA (APOD — Astronomy Picture of the Day).
+// A resposta fica guardada no navegador até o dia seguinte, para não gastar
+// pedidos à API a cada visita. Se a API falhar, tenta de novo e depois usa a
+// última foto guardada.
+// ---------------------------------------------------------------------------
+
+// Chave gratuita: https://api.nasa.gov — a DEMO_KEY funciona, mas tem um
+// limite baixo de pedidos por hora. Troque pela sua para não ter surpresas.
+const NASA_API_KEY = "DEMO_KEY";
+const CHAVE_CACHE_APOD = "wikiUniverso:apod";
+
+function dataIso(data) {
+  const ano = data.getFullYear();
+  const mes = String(data.getMonth() + 1).padStart(2, "0");
+  const dia = String(data.getDate()).padStart(2, "0");
+  return `${ano}-${mes}-${dia}`;
+}
+
+// A API às vezes devolve um registro genérico ("NASA Science", sem mídia):
+// só aceita respostas com título e alguma imagem ou vídeo de verdade.
+function apodValida(dados) {
+  if (!dados?.title || !dados?.date || dados.title.trim() === "NASA Science") return false;
+  if (dados.media_type === "image") return /^https:\/\//.test(dados.url || "");
+  return Boolean(dados.url || dados.thumbnail_url);
+}
+
+async function pedirApod(data) {
+  const url = new URL("https://api.nasa.gov/planetary/apod");
+  url.searchParams.set("api_key", NASA_API_KEY);
+  url.searchParams.set("thumbs", "true");
+  if (data) url.searchParams.set("date", data);
+
+  const resposta = await fetch(url);
+  if (!resposta.ok) throw new Error(`APOD respondeu ${resposta.status}`);
+
+  const dados = await resposta.json();
+  if (!apodValida(dados)) throw new Error("APOD sem foto válida");
+  return dados;
+}
+
+async function carregarApod() {
+  const hoje = dataIso(new Date());
+  const ontem = dataIso(new Date(Date.now() - 24 * 60 * 60 * 1000));
+
+  let cache = null;
+  try {
+    cache = JSON.parse(localStorage.getItem(CHAVE_CACHE_APOD));
+  } catch {
+    // Sem armazenamento: busca sempre na API.
+  }
+  if (!apodValida(cache?.dados)) cache = null;
+  if (cache?.salvoEm === hoje) return { dados: cache.dados };
+
+  // A API às vezes falha por instantes: tenta hoje, de novo, e então ontem
+  // (a foto "de hoje" sai no fuso dos EUA e pode ainda não existir).
+  const tentativas = [() => pedirApod(), () => pedirApod(), () => pedirApod(ontem)];
+  for (const tentativa of tentativas) {
+    try {
+      const dados = await tentativa();
+      try {
+        localStorage.setItem(CHAVE_CACHE_APOD, JSON.stringify({ salvoEm: hoje, dados }));
+      } catch {
+        // Sem armazenamento: só não guarda.
+      }
+      return { dados };
+    } catch {
+      await new Promise((esperar) => setTimeout(esperar, 1200));
+    }
+  }
+
+  if (cache?.dados) return { dados: cache.dados, antiga: true };
+  throw new Error("APOD indisponível");
+}
+
+function montarApod(dados, antiga) {
+  const data = new Date(`${dados.date}T12:00:00`);
+  const dataFormatada = data.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+  // O site antigo (apod.nasa.gov) hoje redireciona para a NASA Science.
+  const paginaNasa = "https://science.nasa.gov/apod/";
+  const urlSegura = (url) => (/^https:\/\//.test(url || "") ? url : "");
+
+  let midia;
+  if (dados.media_type === "image") {
+    const imagem = urlSegura(dados.url);
+    const grande = urlSegura(dados.hdurl) || imagem;
+    midia = `<a href="${grande}" target="_blank" rel="noopener noreferrer"><img src="${imagem}" alt="${escaparHtml(dados.title)}"></a>`;
+  } else if (/youtube\.com\/embed|player\.vimeo\.com/.test(dados.url || "")) {
+    midia = `<div class="ratio ratio-16x9"><iframe src="${urlSegura(dados.url)}" title="${escaparHtml(dados.title)}" loading="lazy" allowfullscreen></iframe></div>`;
+  } else {
+    const miniatura = urlSegura(dados.thumbnail_url);
+    midia = miniatura
+      ? `<a href="${paginaNasa}" target="_blank" rel="noopener noreferrer"><img src="${miniatura}" alt="${escaparHtml(dados.title)}"></a>`
+      : `<a class="apod-sem-imagem" href="${paginaNasa}" target="_blank" rel="noopener noreferrer">▶️ Ver a mídia de hoje no site da NASA</a>`;
+  }
+
+  return `
+    <figure class="apod-midia">${midia}</figure>
+    <div class="apod-texto">
+      ${antiga ? '<p class="apod-aviso">A NASA não respondeu agora; mostrando a última foto carregada.</p>' : ""}
+      <p class="apod-data">${dataFormatada}</p>
+      <h3>${escaparHtml(dados.title)}</h3>
+      ${dados.copyright ? `<p class="apod-credito">© ${escaparHtml(dados.copyright.trim())}</p>` : '<p class="apod-credito">Imagem: NASA</p>'}
+      <details>
+        <summary>Ler a explicação (em inglês)</summary>
+        <p>${escaparHtml(dados.explanation)}</p>
+      </details>
+      <a class="apod-link" href="${paginaNasa}" target="_blank" rel="noopener noreferrer">Ver no site da NASA ↗</a>
+    </div>
+  `;
+}
+
+function iniciarFotoDoDia() {
+  const area = document.querySelector("[data-foto-do-dia]");
+  if (!area) return;
+
+  carregarApod()
+    .then(({ dados, antiga }) => {
+      area.innerHTML = montarApod(dados, antiga);
+    })
+    .catch(() => {
+      area.innerHTML = `
+        <p class="apod-erro">
+          Não foi possível falar com a NASA agora. 🛰️<br>
+          Veja a foto de hoje direto no <a href="https://science.nasa.gov/apod/" target="_blank" rel="noopener noreferrer">site do APOD</a>.
+        </p>`;
+    })
+    .finally(() => area.setAttribute("aria-busy", "false"));
+}
+
+// ---------------------------------------------------------------------------
+// Busca do menu — abre com o botão 🔍, com "/" ou com Ctrl+K. Procura no nome,
+// na descrição e nas palavras-chave de ITENS_DA_BUSCA (dados.js), ignorando
+// acentos. Setas escolhem o resultado, Enter abre, Esc fecha.
+// ---------------------------------------------------------------------------
+
+function pontuarResultado(item, termos) {
+  const nome = normalizar(item.nome);
+  const resto = normalizar(`${item.descricao} ${item.palavras || ""}`);
+  let pontos = 0;
+
+  for (const termo of termos) {
+    if (nome.startsWith(termo)) pontos += 3;
+    else if (nome.includes(termo)) pontos += 2;
+    else if (resto.includes(termo)) pontos += 1;
+    else return 0; // todo termo digitado precisa aparecer em algum lugar
+  }
+  return pontos;
+}
+
+function criarBusca() {
+  const dialogo = document.createElement("dialog");
+  dialogo.className = "dialogo-busca";
+  dialogo.setAttribute("aria-label", "Buscar no site");
+  dialogo.innerHTML = `
+    <form class="busca-form" role="search">
+      <span class="busca-icone" aria-hidden="true">🔍</span>
+      <label for="campo-busca" class="visually-hidden">Buscar no site</label>
+      <input id="campo-busca" type="text" enterkeyhint="search" autocomplete="off" spellcheck="false"
+             placeholder="Planetas, galáxias, buracos negros…"
+             role="combobox" aria-expanded="true" aria-controls="resultados-busca" aria-autocomplete="list">
+      <button type="button" class="busca-fechar" aria-label="Fechar busca">Esc</button>
+    </form>
+    <ul id="resultados-busca" class="busca-resultados" role="listbox" aria-label="Resultados"></ul>
+    <p class="busca-dica"><kbd>↑</kbd> <kbd>↓</kbd> escolher · <kbd>Enter</kbd> abrir · <kbd>Esc</kbd> fechar</p>
+  `;
+  document.body.appendChild(dialogo);
+
+  const campo = dialogo.querySelector("#campo-busca");
+  const lista = dialogo.querySelector("#resultados-busca");
+  let resultados = [];
+  let ativo = 0;
+
+  function marcarAtivo(indice) {
+    const opcoes = lista.querySelectorAll('[role="option"]');
+    if (!opcoes.length) {
+      campo.removeAttribute("aria-activedescendant");
+      return;
+    }
+    ativo = (indice + opcoes.length) % opcoes.length;
+    opcoes.forEach((opcao, i) => opcao.setAttribute("aria-selected", String(i === ativo)));
+    campo.setAttribute("aria-activedescendant", opcoes[ativo].id);
+    opcoes[ativo].scrollIntoView({ block: "nearest" });
+  }
+
+  function atualizarResultados() {
+    const termos = normalizar(campo.value).split(/\s+/).filter(Boolean);
+
+    resultados = termos.length
+      ? ITENS_DA_BUSCA
+          .map((item) => ({ item, pontos: pontuarResultado(item, termos) }))
+          .filter((r) => r.pontos > 0)
+          .sort((a, b) => b.pontos - a.pontos)
+          .map((r) => r.item)
+      : ITENS_DA_BUSCA;
+
+    lista.innerHTML = resultados.length
+      ? resultados.map((item, i) => `
+          <li id="resultado-${i}" role="option" aria-selected="false">
+            <a href="${item.pagina}" tabindex="-1">
+              <strong>${item.nome}</strong>
+              <span>${item.descricao}</span>
+            </a>
+          </li>`).join("")
+      : '<li class="busca-vazia">Nada encontrado. Tente "anéis", "galáxia" ou "buraco negro".</li>';
+
+    marcarAtivo(0);
+  }
+
+  function abrir() {
+    if (dialogo.open) return;
+    campo.value = "";
+    atualizarResultados();
+    dialogo.showModal();
+    campo.focus();
+  }
+
+  campo.addEventListener("input", atualizarResultados);
+
+  campo.addEventListener("keydown", (evento) => {
+    if (evento.key === "ArrowDown") {
+      evento.preventDefault();
+      marcarAtivo(ativo + 1);
+    } else if (evento.key === "ArrowUp") {
+      evento.preventDefault();
+      marcarAtivo(ativo - 1);
+    } else if (evento.key === "Escape") {
+      // Num campo de busca o Esc só limparia o texto; aqui ele fecha a caixa.
+      evento.preventDefault();
+      dialogo.close();
+    }
+  });
+
+  dialogo.querySelector("form").addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    const escolhido = resultados[ativo];
+    if (!escolhido) return;
+    dialogo.close();
+    window.location.href = escolhido.pagina;
+  });
+
+  // Links para âncoras da própria página (ex.: #foto-do-dia) fecham a busca.
+  lista.addEventListener("click", (evento) => {
+    if (evento.target.closest("a")) dialogo.close();
+  });
+
+  dialogo.querySelector(".busca-fechar").addEventListener("click", () => dialogo.close());
+
+  // Clique fora da caixa (no fundo escurecido) fecha.
+  dialogo.addEventListener("click", (evento) => {
+    if (evento.target === dialogo) dialogo.close();
+  });
+
+  document.querySelectorAll("[data-abrir-busca]").forEach((botao) => botao.addEventListener("click", abrir));
+
+  document.addEventListener("keydown", (evento) => {
+    const digitando = evento.target.closest("input, textarea, select, [contenteditable]");
+    const atalhoCtrlK = evento.key.toLowerCase() === "k" && (evento.ctrlKey || evento.metaKey);
+    if (atalhoCtrlK || (evento.key === "/" && !digitando)) {
+      evento.preventDefault();
+      abrir();
+    }
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Inicialização
 // ---------------------------------------------------------------------------
@@ -253,8 +614,13 @@ document.addEventListener("DOMContentLoaded", () => {
   montarRodape();
   gerarCards();
   iniciarCitacoes();
+  criarSistemaAnimado();
+  iniciarFotoDoDia();
   criarNavegacaoPlanetaria();
+  criarFichaTecnica();
   criarBotaoTopo();
   criarPlayerAmbiente();
   iniciarValidacaoFormularios();
+  iniciarFormularioContato();
+  criarBusca();
 });
