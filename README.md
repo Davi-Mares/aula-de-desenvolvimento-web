@@ -57,13 +57,15 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 │   ├── base.css          # variáveis de cor, reset, tipografia e fundo
 │   ├── layout.css        # navbar, cabeçalho das páginas, conteúdo e rodapé
 │   ├── componentes.css   # cards, citação, navegação entre planetas, botões...
-│   └── paginas.css       # estilos só das páginas interativas
+│   ├── paginas.css       # estilos só das páginas interativas
+│   └── extras.css        # estilos dos efeitos extras
 ├── js/
 │   ├── dados.js          # planetas, menu, cards e citações
 │   ├── estrelas.js       # céu estrelado animado no fundo
 │   ├── viagem-da-luz.js  # simulação da viagem da luz
 │   ├── constelacoes.js   # dados e desenho das constelações
-│   └── app.js            # monta navbar/rodapé e liga os comportamentos
+│   ├── app.js            # monta navbar/rodapé e liga os comportamentos
+│   └── extras.js         # efeitos extras
 ├── pwa/
 │   ├── manifest.webmanifest  # nome, ícones e cores do app instalável
 │   └── service-worker.js     # cache e modo offline
@@ -71,7 +73,8 @@ Na área dos astros, cada página apresenta uma navegação na ordem em que os c
 │   ├── icones/           # favicon e ícones do app
 │   ├── planetas/         # fotos de cada astro (nome do astro na frente)
 │   ├── universo/         # galáxias, buraco negro, estrelas, luz
-│   └── site/             # fundo do cabeçalho, faixa brilhante, prévia de link
+│   ├── site/             # fundo do cabeçalho, faixa brilhante, prévia de link
+│   └── extras/           # imagens dos efeitos extras
 └── audio/                # som ambiente
 ```
 

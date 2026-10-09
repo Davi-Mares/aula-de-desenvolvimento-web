@@ -6,7 +6,7 @@
 // visitantes recebam os arquivos novos (o cache antigo é apagado).
 // ---------------------------------------------------------------------------
 
-const VERSAO = "v1";
+const VERSAO = "v2";
 const CACHE = `wiki-do-universo-${VERSAO}`;
 
 // Arquivos baixados já na instalação (o som ambiente fica de fora: é grande
@@ -34,13 +34,17 @@ const ARQUIVOS_ESSENCIAIS = [
   "./pwa/manifest.webmanifest",
   "./css/base.css",
   "./css/componentes.css",
+  "./css/extras.css",
   "./css/layout.css",
   "./css/paginas.css",
   "./js/app.js",
   "./js/constelacoes.js",
   "./js/dados.js",
+  "./js/extras.js",
   "./js/estrelas.js",
   "./js/viagem-da-luz.js",
+  "./img/extras/brilho.png",
+  "./img/extras/eu.jpg",
   "./img/icones/apple-touch-icon.png",
   "./img/icones/favicon.svg",
   "./img/icones/icone-192.png",
